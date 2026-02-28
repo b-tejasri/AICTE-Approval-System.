@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICTE Approval & Compliance System</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0a2240;--navy-light:#133568;--saffron:#FF6B00;--saffron-light:#FF8C38;
+  --green-india:#138808;--gold:#C8A84B;--cream:#F8F5EE;--white:#FFFFFF;
+  --gray-100:#F4F6F9;--gray-200:#E8ECF2;--gray-300:#D0D7E3;
+  --gray-500:#7A8BA3;--gray-700:#3D4F6B;--red-flag:#D92B3A;
+  --amber:#E8920A;--success:#1A8A4A;--border:#C8D0DC;
+  --shadow:0 2px 16px rgba(10,34,64,.12);--shadow-lg:0 8px 40px rgba(10,34,64,.18);
+  --sidebar-w:260px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans',sans-serif;background:var(--gray-100);color:var(--navy);font-size:14px}
+h1,h2,h3,h4,h5{font-family:'Rajdhani',sans-serif;font-weight:700}
+.screen{display:none}.screen.active{display:block}
+/* LANDING */
+#landing{min-height:100vh;background:linear-gradient(145deg,var(--navy) 0%,var(--navy-light) 60%,#1a4a8a 100%);display:flex;flex-direction:column}
+.tricolor-bar{height:5px;background:linear-gradient(90deg,var(--saffron) 33.3%,#fff 33.3% 66.6%,var(--green-india) 66.6%)}
+.emblem-header{background:linear-gradient(90deg,var(--saffron),#FF8C38,var(--saffron));padding:6px 24px;display:flex;align-items:center;gap:16px;font-size:11px;color:var(--white);font-weight:600;letter-spacing:.5px}
+.landing-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;border-bottom:1px solid rgba(255,255,255,.1)}
+.logo-section{display:flex;align-items:center;gap:16px}
+.emblem-circle{width:60px;height:60px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.logo-text h1{color:var(--white);font-size:22px;letter-spacing:1px}
+.logo-text p{color:rgba(255,255,255,.7);font-size:11px;letter-spacing:2px}
+.nav-btns{display:flex;gap:12px}
+.btn{padding:10px 24px;border-radius:4px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;letter-spacing:.5px;transition:all .2s}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,.6);color:var(--white)}
+.btn-outline:hover{background:rgba(255,255,255,.1)}
+.btn-saffron{background:var(--saffron);color:var(--white)}.btn-saffron:hover{background:var(--saffron-light);transform:translateY(-1px)}
+.btn-navy{background:var(--navy);color:var(--white)}.btn-navy:hover{background:var(--navy-light)}
+.btn-green{background:var(--green-india);color:var(--white)}.btn-green:hover{background:#1aa00e}
+.btn-red{background:var(--red-flag);color:var(--white)}.btn-red:hover{background:#b71c2c}
+.btn-amber{background:var(--amber);color:var(--white)}
+.btn-sm{padding:7px 16px;font-size:12px}.btn-block{width:100%}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.landing-hero{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:60px 48px;text-align:center}
+.landing-hero h2{color:var(--white);font-size:48px;letter-spacing:2px;line-height:1.1;margin-bottom:16px}
+.landing-hero h2 span{color:var(--saffron)}
+.landing-hero p{color:rgba(255,255,255,.75);font-size:16px;max-width:600px;line-height:1.7;margin-bottom:40px}
+.portal-cards{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.portal-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:32px 36px;text-align:center;width:280px;cursor:pointer;transition:all .3s;backdrop-filter:blur(10px)}
+.portal-card:hover{background:rgba(255,255,255,.12);transform:translateY(-4px);border-color:var(--saffron)}
+.portal-card .icon{font-size:48px;margin-bottom:16px}
+.portal-card h3{color:var(--white);font-size:20px;margin-bottom:8px}
+.portal-card p{color:rgba(255,255,255,.6);font-size:13px;line-height:1.6;margin-bottom:20px}
+.stats-bar{background:rgba(0,0,0,.3);padding:20px 48px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:12px}
+.stat-item{text-align:center}
+.stat-item .num{color:var(--saffron);font-family:'Rajdhani';font-size:28px;font-weight:700}
+.stat-item .lbl{color:rgba(255,255,255,.6);font-size:11px;letter-spacing:1px}
+/* AUTH */
+.auth-page{min-height:100vh;background:linear-gradient(145deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.auth-box{background:var(--white);border-radius:8px;width:480px;overflow:hidden;box-shadow:var(--shadow-lg)}
+.auth-header{background:var(--navy);padding:24px 32px;display:flex;align-items:center;gap:14px}
+.auth-header .icon{font-size:32px}
+.auth-header h2{color:var(--white);font-size:18px}
+.auth-header p{color:rgba(255,255,255,.6);font-size:12px}
+.auth-body{padding:32px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-weight:600;font-size:12px;letter-spacing:.5px;color:var(--gray-700);margin-bottom:6px;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:4px;font-size:14px;font-family:'Noto Sans';color:var(--navy);transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--saffron)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.auth-footer{padding:0 32px 24px;text-align:center;font-size:13px;color:var(--gray-500)}
+.auth-footer a{color:var(--saffron);cursor:pointer;font-weight:600}
+.back-link{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);cursor:pointer;font-size:13px;padding:16px 48px}
+.back-link:hover{color:var(--white)}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border)}
+.auth-tab{flex:1;text-align:center;padding:12px;font-family:'Rajdhani';font-weight:700;font-size:14px;cursor:pointer;color:var(--gray-500);border-bottom:2px solid transparent;transition:all .2s}
+.auth-tab.active{color:var(--saffron);border-bottom-color:var(--saffron)}
+/* APP */
+#app{display:none;min-height:100vh}
+#app.active{display:flex;flex-direction:column}
+.top-bar{background:var(--navy);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:3px solid var(--saffron)}
+.top-bar-left{display:flex;align-items:center;gap:14px}
+.top-logo{font-family:'Rajdhani';font-size:18px;color:var(--white);font-weight:700;letter-spacing:1px}
+.top-logo span{color:var(--saffron)}
+.role-badge{background:var(--saffron);color:var(--white);padding:3px 10px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:1px}
+.role-badge.authority{background:var(--green-india)}
+.top-bar-right{display:flex;align-items:center;gap:10px}
+.top-icon{color:rgba(255,255,255,.7);cursor:pointer;font-size:16px;padding:6px 10px;border-radius:4px;transition:all .2s;font-family:'Rajdhani';font-size:12px;font-weight:600;letter-spacing:.5px}
+.top-icon:hover{color:var(--white);background:rgba(255,255,255,.1)}
+.logout-btn{background:rgba(217,43,58,.8);color:var(--white);border:none;padding:6px 14px;border-radius:4px;font-family:'Rajdhani';font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .2s}
+.logout-btn:hover{background:var(--red-flag)}
+.user-pill{display:flex;align-items:center;gap:8px}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--saffron);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--white);font-size:13px}
+.user-name{color:rgba(255,255,255,.85);font-size:13px}
+.app-body{display:flex;padding-top:56px}
+.sidebar{width:var(--sidebar-w);background:var(--white);position:fixed;top:56px;left:0;bottom:0;overflow-y:auto;border-right:1px solid var(--border);z-index:90}
+.sidebar-section{padding:16px 0;border-bottom:1px solid var(--gray-200)}
+.sidebar-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-500);padding:0 20px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;font-size:13px;color:var(--gray-700);font-weight:500;transition:all .15s;border-left:3px solid transparent}
+.nav-item:hover{background:var(--gray-100);color:var(--navy)}
+.nav-item.active{background:#FFF5EE;color:var(--saffron);border-left-color:var(--saffron);font-weight:600}
+.nav-item .ni{font-size:16px;width:20px;text-align:center}
+.main-content{margin-left:var(--sidebar-w);flex:1;padding:24px}
+.page{display:none}.page.active{display:block}
+/* CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--white);border-radius:6px;padding:18px 20px;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.stat-card.blue::before{background:var(--navy)}.stat-card.orange::before{background:var(--saffron)}
+.stat-card.green::before{background:var(--green-india)}.stat-card.red::before{background:var(--red-flag)}
+.stat-card.gold::before{background:var(--gold)}.stat-card.amber::before{background:var(--amber)}
+.stat-card.purple::before{background:#7C3AED}
+.sc-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-500);margin-bottom:6px}
+.sc-value{font-family:'Rajdhani';font-size:32px;font-weight:700;color:var(--navy);line-height:1}
+.sc-sub{font-size:11px;color:var(--gray-500);margin-top:3px}
+.sc-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.1}
+.card{background:var(--white);border-radius:6px;border:1px solid var(--border);margin-bottom:16px}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.card-header h3{font-size:15px;color:var(--navy)}
+.card-body{padding:20px}.card-body-sm{padding:12px 20px}
+.badge{display:inline-block;padding:3px 10px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.badge-approved,.badge-success{background:#D4EDDA;color:#155724}
+.badge-pending{background:#FFF3CD;color:#856404}
+.badge-rejected,.badge-danger{background:#F8D7DA;color:#721C24}
+.badge-flagged{background:#F8D7DA;color:#721C24}
+.badge-low{background:#D4EDDA;color:#155724}
+.badge-medium{background:#FFF3CD;color:#856404}
+.badge-high{background:#F8D7DA;color:#721C24}
+.badge-analyzed{background:#D4EDDA;color:#155724}
+.badge-info{background:#D0E8FF;color:#0A3D9E}
+.badge-submitted{background:#E0ECFF;color:#0A3D9E}
+.badge-under-review{background:#FFF3CD;color:#856404}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{background:var(--gray-100);text-align:left;padding:9px 12px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-700);border-bottom:2px solid var(--border)}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--gray-200);font-size:12px;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--gray-100)}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-container{position:relative;height:220px}
+.page-header{margin-bottom:20px}
+.page-header h2{font-size:24px;color:var(--navy)}
+.page-header p{color:var(--gray-500);font-size:12px;margin-top:4px}
+.page-header-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.alert-banner{padding:10px 14px;border-radius:4px;display:flex;gap:10px;align-items:flex-start;margin-bottom:14px;font-size:12px}
+.alert-banner.warn{background:#FFF3CD;border-left:4px solid var(--amber);color:#7d5a00}
+.alert-banner.info{background:#E0ECFF;border-left:4px solid #1A5EBF;color:#0A3D9E}
+.alert-banner.danger{background:#F8D7DA;border-left:4px solid var(--red-flag);color:#721c24}
+.alert-banner.success{background:#D4EDDA;border-left:4px solid var(--green-india);color:#155724}
+.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-200)}
+.notif-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.notif-icon.warning{background:#FFF3CD}.notif-icon.success{background:#D4EDDA}
+.notif-icon.danger{background:#F8D7DA}.notif-icon.info{background:#E0ECFF}
+.notif-title{font-weight:600;font-size:12px;color:var(--navy);margin-bottom:2px}
+.notif-desc{font-size:12px;color:var(--gray-500);line-height:1.5}
+.notif-time{font-size:11px;color:var(--gray-500);margin-top:3px}
+.compliance-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cr-label{width:180px;font-size:12px;font-weight:500}
+.cr-bar{flex:1;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden}
+.cr-fill{height:100%;border-radius:4px}
+.cr-val{width:36px;text-align:right;font-size:11px;font-weight:700;color:var(--navy)}
+/* UPLOAD CARDS */
+.upload-sections-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:20px}
+.section-upload-card{background:var(--white);border:2px solid var(--border);border-radius:8px;padding:18px;transition:all .2s}
+.section-upload-card:hover{box-shadow:var(--shadow);border-color:var(--saffron)}
+.section-upload-card.done{border-color:var(--green-india)}
+.section-upload-card.rejected-card{border-color:var(--red-flag);background:#FFF5F5}
+.su-icon{font-size:28px;margin-bottom:8px}
+.section-upload-card h4{font-size:14px;margin-bottom:4px;font-family:'Rajdhani'}
+.section-upload-card p{font-size:11px;color:var(--gray-500);margin-bottom:10px;line-height:1.5}
+.su-status{font-size:11px;font-weight:700;margin-bottom:10px}
+.su-status.uploaded{color:var(--green-india)}
+.su-status.pending-status{color:var(--gray-500)}
+.su-status.rejected-status{color:var(--red-flag)}
+.section-upload-card input[type=file]{display:none}
+.upload-btn{border:none;padding:8px 14px;border-radius:4px;font-family:'Rajdhani';font-size:12px;font-weight:700;cursor:pointer;width:100%;letter-spacing:.5px}
+.upload-btn.primary{background:var(--saffron);color:var(--white)}.upload-btn.primary:hover{background:var(--saffron-light)}
+.upload-btn.success-btn{background:var(--green-india);color:var(--white)}
+.upload-btn.danger-btn{background:var(--red-flag);color:var(--white)}
+.upload-btn:disabled{background:var(--gray-300);cursor:not-allowed}
+/* APPROVAL BANNER */
+.approval-banner{border-radius:8px;padding:20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.approval-banner.approved-banner{background:linear-gradient(135deg,#D4EDDA,#c3e6cb);border:2px solid var(--green-india)}
+.approval-banner.rejected-banner{background:linear-gradient(135deg,#F8D7DA,#f5c6cb);border:2px solid var(--red-flag)}
+.approval-banner.pending-banner{background:linear-gradient(135deg,#E0ECFF,#cce5ff);border:2px solid #1A5EBF}
+.approval-banner.submitted-banner{background:linear-gradient(135deg,#FFF3CD,#ffeeba);border:2px solid var(--amber)}
+/* AI DATA TABLE */
+.ai-data-table{width:100%;border-collapse:collapse;font-size:12px}
+.ai-data-table th{background:var(--gray-100);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--gray-700);letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.ai-data-table td{padding:7px 10px;border-bottom:1px solid var(--gray-200)}
+.risk-circle-wrap{text-align:center;padding:20px}
+.risk-score-big{font-family:'Rajdhani';font-size:52px;font-weight:700;line-height:1}
+.loading-spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .6s linear infinite}
+.spin-orange{border-color:rgba(255,107,0,.2);border-top-color:var(--saffron)}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* SECTION SCORE BADGE */
+.sec-score{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.sec-score.good{background:#D4EDDA;color:#155724}
+.sec-score.warn{background:#FFF3CD;color:#856404}
+.sec-score.bad{background:#F8D7DA;color:#721C24}
+/* REVIEW MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:8px;width:640px;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-header{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--white);z-index:1}
+.modal-header h3{font-size:18px}
+.modal-close{cursor:pointer;font-size:22px;color:var(--gray-500);line-height:1}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.gov-footer{background:var(--navy);color:rgba(255,255,255,.5);padding:10px 24px;font-size:11px;display:flex;justify-content:space-between;align-items:center}
+.gov-footer a{color:var(--saffron)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--gray-100)}::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing" class="screen active">
+  <div class="tricolor-bar"></div>
+  <div class="emblem-header"><span>🇮🇳</span><span>GOVERNMENT OF INDIA — MINISTRY OF EDUCATION</span><span style="margin-left:auto">Screen Reader | हिन्दी | Help</span></div>
+  <div class="landing-nav">
+    <div class="logo-section">
+      <div class="emblem-circle">⚖️</div>
+      <div class="logo-text"><h1>AICTE PORTAL</h1><p>ALL INDIA COUNCIL FOR TECHNICAL EDUCATION</p></div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-outline" onclick="showScreen('login')">Sign In</button>
+      <button class="btn btn-saffron" onclick="showScreen('register')">Register Institution</button>
+    </div>
+  </div>
+  <div class="landing-hero">
+    <h2>AICTE <span>Approval</span> &<br>Compliance System</h2>
+    <p>A unified digital platform for mandatory disclosures, AI-powered compliance monitoring, and authority review — ensuring transparency in technical education.</p>
+    <div class="portal-cards">
+      <div class="portal-card" onclick="showScreen('login')">
+        <div class="icon">🏛️</div><h3>Institution Portal</h3>
+        <p>Register, upload mandatory disclosure PDFs, get AI risk analysis, submit for approval, and track status.</p>
+        <button class="btn btn-saffron btn-block">Login as Institution</button>
+      </div>
+      <div class="portal-card" onclick="showScreen('auth-login')">
+        <div class="icon">🔍</div><h3>Authority Portal</h3>
+        <p>Review institution applications, analyze risk reports, and issue approvals or rejections.</p>
+        <button class="btn btn-green btn-block">Login as Authority</button>
+      </div>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-item"><div class="num">11,200+</div><div class="lbl">Approved Institutions</div></div>
+    <div class="stat-item"><div class="num">38</div><div class="lbl">States & UTs</div></div>
+    <div class="stat-item"><div class="num">2.4L+</div><div class="lbl">Applications Processed</div></div>
+    <div class="stat-item"><div class="num">98.2%</div><div class="lbl">Digital Compliance</div></div>
+    <div class="stat-item"><div class="num">847</div><div class="lbl">AI Flags Resolved</div></div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="screen">
+  <div class="auth-page">
+    <div style="width:480px">
+      <div class="back-link" onclick="showScreen('landing')">← Back to Portal Home</div>
+      <div class="auth-box">
+        <div class="auth-header"><div class="icon">🔐</div><div><h2>Institution Login</h2><p>AICTE Approval & Compliance System</p></div></div>
+        <div style="padding:0 32px 8px">
+          <div class="auth-tabs">
+            <div class="auth-tab active" id="tab-inst" onclick="switchTab('institution')">Institution</div>
+            <div class="auth-tab" id="tab-auth" onclick="switchTab('authority')">Authority</div>
+          </div>
+        </div>
+        <div class="auth-body">
+          <div class="alert-banner info">ℹ️ Enter your registered email and password.</div>
+          <div id="loginErr" class="alert-banner danger" style="display:none"></div>
+          <div class="form-group"><label>Email ID</label><input type="email" id="loginEmail" placeholder="principal@institution.ac.in"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+          <button class="btn btn-saffron btn-block" id="loginBtn" onclick="doLogin()">LOGIN →</button>
+        </div>
+        <div class="auth-footer">New Institution? <a onclick="showScreen('register')">Register Here</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTHORITY LOGIN -->
+<div id="auth-login" class="screen">
+  <div class="auth-page">
+    <div style="width:480px">
+      <div class="back-link" onclick="showScreen('landing')">← Back to Portal Home</div>
+      <div class="auth-box">
+        <div class="auth-header" style="background:var(--green-india)"><div class="icon">🔍</div><div><h2>Authority Login</h2><p>AICTE Regional Review System</p></div></div>
+        <div class="auth-body">
+          <div class="alert-banner info">ℹ️ Demo: <b>reviewer@aicte-india.org</b> / <b>demo1234</b></div>
+          <div id="authLoginErr" class="alert-banner danger" style="display:none"></div>
+          <div class="form-group"><label>Official Email ID</label><input type="email" id="authEmail" value="reviewer@aicte-india.org"></div>
+          <div class="form-group"><label>Password</label><input type="password" id="authPass" value="demo1234"></div>
+          <button class="btn btn-green btn-block" id="authLoginBtn" onclick="doAuthorityLogin()">LOGIN →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="screen">
+  <div class="auth-page">
+    <div style="width:640px">
+      <div class="back-link" onclick="showScreen('landing')">← Back to Portal Home</div>
+      <div class="auth-box" style="width:100%">
+        <div class="auth-header"><div class="icon">🏛️</div><div><h2>Institution Registration</h2><p>Register your institution on AICTE Portal</p></div></div>
+        <div class="auth-body">
+          <div id="regErr" class="alert-banner danger" style="display:none"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Institution Name *</label><input id="regName" placeholder="e.g. VVIT Guntur"></div>
+            <div class="form-group"><label>AICTE Institute ID</label><input id="regAicteId" placeholder="1-123456789"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Institution Type *</label>
+              <select id="regType"><option>Engineering</option><option>Pharmacy</option><option>MBA/Management</option><option>Architecture</option><option>MCA</option></select>
+            </div>
+            <div class="form-group"><label>Category *</label>
+              <select id="regCategory"><option>Affiliated</option><option>Autonomous</option><option>Deemed University</option><option>University</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Year of Establishment *</label><input id="regYear" type="number" placeholder="1998"></div>
+            <div class="form-group"><label>Affiliated University *</label><input id="regUniv" placeholder="e.g. JNTUK"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>State *</label>
+              <select id="regState"><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Maharashtra</option><option>Tamil Nadu</option><option>Gujarat</option><option>Kerala</option><option>Rajasthan</option></select>
+            </div>
+            <div class="form-group"><label>District *</label><input id="regDistrict" placeholder="Enter district"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Pincode</label><input id="regPincode" placeholder="522508"></div>
+            <div class="form-group"><label>Principal Name *</label><input id="regPrincipal" placeholder="Dr. Full Name"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Contact Email *</label><input id="regEmail" type="email" placeholder="principal@inst.ac.in"></div>
+            <div class="form-group"><label>Mobile</label><input id="regMobile" placeholder="+91 XXXXXXXXXX"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Password *</label><input id="regPass" type="password" placeholder="Min 8 characters"></div>
+            <div class="form-group"><label>Confirm Password *</label><input id="regCpass" type="password" placeholder="Re-enter password"></div>
+          </div>
+          <button class="btn btn-saffron btn-block" id="regBtn" onclick="doRegister()" style="margin-top:8px">SUBMIT REGISTRATION →</button>
+        </div>
+        <div class="auth-footer">Already registered? <a onclick="showScreen('login')">Login Here</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <div class="top-logo">⚖️ AICTE <span>PORTAL</span></div>
+      <div class="role-badge" id="roleBadge">INSTITUTION</div>
+    </div>
+    <div class="top-bar-right">
+      <div class="top-icon" onclick="navTo('notifications')" title="Notifications">🔔 <span id="notifBadgeTop" style="display:none;background:var(--red-flag);color:#fff;border-radius:50%;padding:1px 5px;font-size:10px"></span></div>
+      <div class="user-pill">
+        <div class="user-avatar" id="userAvatarTop">?</div>
+        <div class="user-name" id="userNameTop">Loading...</div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <!-- INSTITUTION SIDEBAR -->
+    <div class="sidebar" id="inst-sidebar">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;color:var(--gray-500);margin-bottom:3px">Logged in as</div>
+        <div style="font-weight:700;color:var(--navy);font-size:13px" id="sidebarInstName">—</div>
+        <div style="font-size:11px;color:var(--gray-500)" id="sidebarAicteId">—</div>
+      </div>
+      <div style="padding:10px 12px;border-bottom:1px solid var(--gray-200)">
+        <div id="sidebarRiskCard" style="background:#FFF5EE;border:1px solid #FFD7B5;border-radius:6px;padding:10px;display:none">
+          <div style="font-size:10px;font-weight:700;color:var(--saffron);margin-bottom:2px">⚡ AI RISK SCORE</div>
+          <div style="font-family:'Rajdhani';font-size:26px;font-weight:700" id="sidebarRiskScore">—</div>
+          <div style="font-size:11px;color:var(--gray-500)" id="sidebarRiskLevel">—</div>
+        </div>
+        <div id="sidebarApprovalCard" style="margin-top:8px;display:none;border-radius:6px;padding:10px;border:1px solid">
+          <div style="font-size:10px;font-weight:700;margin-bottom:2px" id="sidebarApprovalLabel">APPROVAL STATUS</div>
+          <div style="font-family:'Rajdhani';font-size:15px;font-weight:700" id="sidebarApprovalStatus">—</div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Institution Menu</div>
+        <div class="nav-item active" onclick="navTo('inst-dashboard')"><span class="ni">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="navTo('upload-disclosures')"><span class="ni">📁</span> Upload Disclosures</div>
+        <div class="nav-item" onclick="navTo('my-disclosures')"><span class="ni">📋</span> My Disclosures</div>
+        <div class="nav-item" onclick="navTo('ai-risk')"><span class="ni">🤖</span> AI Risk Report</div>
+        <div class="nav-item" onclick="navTo('approval-status')"><span class="ni">📝</span> Approval Status</div>
+        <div class="nav-item" onclick="navTo('notifications')"><span class="ni">🔔</span> Notifications</div>
+        <div class="nav-item" onclick="navTo('profile')"><span class="ni">🏛️</span> Profile</div>
+      </div>
+    </div>
+
+    <!-- AUTHORITY SIDEBAR -->
+    <div class="sidebar" id="auth-sidebar" style="display:none">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;color:var(--gray-500);margin-bottom:3px">Reviewer</div>
+        <div style="font-weight:700;color:var(--navy);font-size:13px" id="authSidebarName">—</div>
+        <div style="font-size:11px;color:var(--gray-500)">AICTE Authority Portal</div>
+      </div>
+      <div style="padding:10px 12px;border-bottom:1px solid var(--gray-200)">
+        <div id="authPendingBadge" style="background:#FFF3CD;border:1px solid var(--amber);border-radius:6px;padding:8px;text-align:center;display:none">
+          <div style="font-size:10px;font-weight:700;color:var(--amber)">PENDING REVIEWS</div>
+          <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:var(--amber)" id="authPendingCount">0</div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Authority Menu</div>
+        <div class="nav-item active" onclick="navTo('auth-dashboard')"><span class="ni">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="navTo('auth-pending')"><span class="ni">📋</span> Pending Reviews</div>
+        <div class="nav-item" onclick="navTo('auth-institutions')"><span class="ni">🏛️</span> All Institutions</div>
+        <div class="nav-item" onclick="navTo('auth-analytics')"><span class="ni">📈</span> Analytics</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- ═══ INSTITUTION DASHBOARD ═══ -->
+      <div class="page active" id="page-inst-dashboard">
+        <div class="page-header-row">
+          <div class="page-header">
+            <h2>Institution Dashboard</h2>
+            <p id="dashSubtitle">Loading your institution data...</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-navy btn-sm" onclick="downloadExcel()">📥 Download Report</button>
+            <button class="btn btn-saffron btn-sm" id="submitApprovalBtn" onclick="submitForApproval()" style="display:none">📨 Submit for Approval</button>
+          </div>
+        </div>
+        <div id="dashApprovalBanner"></div>
+        <div id="dashAlert" style="display:none"></div>
+        <div class="stats-grid">
+          <div class="stat-card blue"><div class="sc-label">Sections Uploaded</div><div class="sc-value" id="ds-uploads">0</div><div class="sc-sub">of 6 sections</div><div class="sc-icon">📁</div></div>
+          <div class="stat-card green"><div class="sc-label">Total Students</div><div class="sc-value" id="ds-students">—</div><div class="sc-sub">From PDF data</div><div class="sc-icon">👨‍🎓</div></div>
+          <div class="stat-card orange"><div class="sc-label">Total Faculty</div><div class="sc-value" id="ds-faculty">—</div><div class="sc-sub">From PDF data</div><div class="sc-icon">👨‍🏫</div></div>
+          <div class="stat-card gold"><div class="sc-label">Total Labs</div><div class="sc-value" id="ds-labs">—</div><div class="sc-sub">From PDF data</div><div class="sc-icon">🔬</div></div>
+          <div class="stat-card amber"><div class="sc-label">AI Risk Score</div><div class="sc-value" id="ds-risk">—</div><div class="sc-sub" id="ds-risk-level">Not Analyzed</div><div class="sc-icon">🤖</div></div>
+          <div class="stat-card purple"><div class="sc-label">Approval Probability</div><div class="sc-value" id="ds-approval-prob">—</div><div class="sc-sub">Based on compliance</div><div class="sc-icon">📊</div></div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="card">
+            <div class="card-header"><h3>Section-wise Compliance</h3></div>
+            <div class="card-body" id="dashSectionBody"><div style="color:var(--gray-500);font-size:13px">Upload PDFs to see section scores.</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Infrastructure Summary</h3></div>
+            <div class="card-body" id="dashInfraBody"><div style="color:var(--gray-500);font-size:13px">Upload infrastructure PDF to see details.</div></div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="card">
+            <div class="card-header"><h3>Faculty Compliance Statistics</h3></div>
+            <div class="card-body" id="dashFacultyStats"><div style="color:var(--gray-500);font-size:12px">Upload faculty PDF to see statistics.</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Accreditation & Certifications</h3></div>
+            <div class="card-body" id="dashAccredBody"><div style="color:var(--gray-500);font-size:12px">Upload accreditation PDF to see status.</div></div>
+          </div>
+        </div>
+
+        <div class="card" id="dashRiskCard" style="display:none">
+          <div class="card-header"><h3>🤖 AI Risk Factors & Drawbacks</h3><span id="dashRiskBadge" class="badge"></span></div>
+          <div class="card-body" id="dashRiskFactors"></div>
+        </div>
+        <div class="card" id="dashSuggestCard" style="display:none">
+          <div class="card-header"><h3>💡 Suggested Actions to Improve Compliance</h3></div>
+          <div class="card-body" id="dashSuggestions"></div>
+        </div>
+      </div>	
+
+      <!-- ═══ UPLOAD DISCLOSURES ═══ -->
+      <div class="page" id="page-upload-disclosures">
+        <div class="page-header">
+          <h2>Upload Mandatory Disclosures</h2>
+          <p>Upload a PDF for each section. AI extracts data, computes risk score, and sends for authority review.</p>
+        </div>
+        <div class="alert-banner info">ℹ️ Upload the <b>correct PDF for each section</b>. Uploading a wrong file (e.g., faculty PDF in labs section) will be detected and rejected. Each section must have its own PDF.</div>
+        <div id="uploadProgress" style="display:none" class="alert-banner warn">⏳ Uploading and analyzing PDF... Please wait, AI is processing.</div>
+        <div class="upload-sections-grid" id="uploadSectionsGrid"></div>
+        <div class="card" id="uploadResultCard" style="display:none">
+          <div class="card-header"><h3>✅ Upload Result</h3></div>
+          <div class="card-body" id="uploadResultBody"></div>
+        </div>
+      </div>
+
+      <!-- ═══ MY DISCLOSURES ═══ -->
+      <div class="page" id="page-my-disclosures">
+        <div class="page-header-row">
+          <div class="page-header"><h2>My Disclosures</h2><p>All uploaded sections with AI extracted data and review status.</p></div>
+          <button class="btn btn-navy btn-sm" onclick="downloadExcel()">📥 Download Excel</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Uploaded Sections</h3><span class="badge badge-analyzed" id="discTotalBadge">0 Uploads</span></div>
+          <div class="card-body-sm" id="disclosuresTableBody">
+            <div style="color:var(--gray-500);text-align:center;padding:32px">No disclosures yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ AI RISK PAGE ═══ -->
+      <div class="page" id="page-ai-risk">
+        <div class="page-header-row">
+          <div class="page-header"><h2>AI Risk & Compliance Report</h2><p>Detailed risk analysis with section breakdown and approval probability.</p></div>
+          <button class="btn btn-navy btn-sm" onclick="downloadExcel()">📥 Download Report</button>
+        </div>
+        <div id="aiRiskContent">
+          <div style="text-align:center;padding:60px;color:var(--gray-500)">
+            <div style="font-size:48px;margin-bottom:16px">🤖</div>
+            <div style="font-size:18px;font-family:'Rajdhani';color:var(--navy);margin-bottom:8px">No Risk Analysis Yet</div>
+            <div>Upload at least one mandatory disclosure PDF to generate AI risk report.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ APPROVAL STATUS PAGE ═══ -->
+      <div class="page" id="page-approval-status">
+        <div class="page-header"><h2>Approval Status</h2><p>Track your AICTE application review status.</p></div>
+        <div id="approvalStatusContent">
+          <div style="text-align:center;padding:60px;color:var(--gray-500)">
+            <div style="font-size:48px;margin-bottom:16px">📝</div>
+            <div style="font-size:18px;font-family:'Rajdhani';color:var(--navy);margin-bottom:8px">No Application Submitted</div>
+            <div>Upload all mandatory disclosure PDFs and click <b>Submit for Approval</b> from the dashboard.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ NOTIFICATIONS ═══ -->
+      <div class="page" id="page-notifications">
+        <div class="page-header"><h2>Notifications</h2><p>All AICTE alerts, upload confirmations, and compliance notifications.</p></div>
+        <div class="card">
+          <div class="card-header"><h3>All Notifications</h3><span class="badge badge-flagged" id="notifUnreadBadge">0 Unread</span></div>
+          <div class="card-body" id="notifBody"><div style="color:var(--gray-500);text-align:center;padding:32px">No notifications yet.</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ PROFILE ═══ -->
+      <div class="page" id="page-profile">
+        <div class="page-header"><h2>Institution Profile</h2></div>
+        <div class="card">
+          <div class="card-header"><h3 id="profileName">—</h3></div>
+          <div class="card-body"><div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" id="profileBody"><div style="color:var(--gray-500)">Loading...</div></div></div>
+        </div>
+      </div>
+
+      <!-- ═══ AUTHORITY DASHBOARD ═══ -->
+      <div class="page" id="page-auth-dashboard">
+        <div class="page-header"><h2>Authority Dashboard</h2><p>AICTE Institution Compliance Overview</p></div>
+        <div class="stats-grid">
+          <div class="stat-card blue"><div class="sc-label">Total Institutions</div><div class="sc-value" id="ath-total">—</div><div class="sc-icon">🏛️</div></div>
+          <div class="stat-card amber"><div class="sc-label">Pending Reviews</div><div class="sc-value" id="ath-pending">—</div><div class="sc-icon">⏳</div></div>
+          <div class="stat-card green"><div class="sc-label">Approved</div><div class="sc-value" id="ath-approved">—</div><div class="sc-icon">✅</div></div>
+          <div class="stat-card red"><div class="sc-label">Rejected</div><div class="sc-value" id="ath-rejected">—</div><div class="sc-icon">❌</div></div>
+          <div class="stat-card red"><div class="sc-label">High Risk</div><div class="sc-value" id="ath-high">—</div><div class="sc-icon">🚩</div></div>
+          <div class="stat-card amber"><div class="sc-label">Medium Risk</div><div class="sc-value" id="ath-medium">—</div><div class="sc-icon">⚠️</div></div>
+        </div>
+        <div class="charts-grid">
+          <div class="card"><div class="card-header"><h3>Risk Distribution</h3></div><div class="card-body"><div class="chart-container"><canvas id="riskDistChart"></canvas></div></div></div>
+          <div class="card"><div class="card-header"><h3>Approval Status Distribution</h3></div><div class="card-body"><div class="chart-container"><canvas id="approvalDistChart"></canvas></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🔴 High Risk Institutions</h3></div>
+          <div class="card-body-sm" id="authHighRiskBody"><div style="color:var(--gray-500);text-align:center;padding:20px">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ AUTHORITY PENDING REVIEWS ═══ -->
+      <div class="page" id="page-auth-pending">
+        <div class="page-header"><h2>Pending Review Applications</h2><p>Review institution submissions and issue approval decisions.</p></div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <button class="btn btn-navy btn-sm" onclick="loadPendingReviews('submitted')">⏳ Submitted</button>
+          <button class="btn btn-amber btn-sm" onclick="loadPendingReviews('under_review')">🔍 Under Review</button>
+          <button class="btn btn-green btn-sm" onclick="loadPendingReviews('approved')">✅ Approved</button>
+          <button class="btn btn-red btn-sm" onclick="loadPendingReviews('rejected')">❌ Rejected</button>
+          <button class="btn btn-outline btn-sm" style="color:var(--navy);border-color:var(--border)" onclick="loadPendingReviews('')">All</button>
+        </div>
+        <div id="pendingReviewsBody"><div style="color:var(--gray-500);text-align:center;padding:32px">Loading reviews...</div></div>
+      </div>
+
+      <!-- ═══ AUTHORITY ALL INSTITUTIONS ═══ -->
+      <div class="page" id="page-auth-institutions">
+        <div class="page-header"><h2>All Institutions</h2><p>Complete list sorted by risk score.</p></div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <input type="text" id="authSearch" onkeyup="filterAuthTable()" placeholder="🔍 Search by name or state..." style="flex:1;min-width:200px;padding:8px 12px;border:1.5px solid var(--border);border-radius:4px;font-size:13px">
+          <select id="authRiskFilter" onchange="filterAuthTable()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:4px;font-size:13px">
+            <option value="">All Risk Levels</option><option value="High">High Risk</option><option value="Medium">Medium Risk</option><option value="Low">Low Risk</option>
+          </select>
+          <select id="authApprovalFilter" onchange="filterAuthTable()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:4px;font-size:13px">
+            <option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Institutions</h3><span class="badge badge-analyzed" id="authInstCount">0</span></div>
+          <div class="card-body-sm" id="authInstBody"><div style="color:var(--gray-500);text-align:center;padding:32px">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ AUTHORITY ANALYTICS ═══ -->
+      <div class="page" id="page-auth-analytics">
+        <div class="page-header"><h2>Analytics & Monitoring</h2><p>Region-wide compliance statistics.</p></div>
+        <div class="charts-grid">
+          <div class="card"><div class="card-header"><h3>Risk Distribution</h3></div><div class="card-body"><div class="chart-container"><canvas id="analyticsRiskChart"></canvas></div></div></div>
+          <div class="card"><div class="card-header"><h3>Institutions by State</h3></div><div class="card-body"><div class="chart-container"><canvas id="analyticsStateChart"></canvas></div></div></div>
+        </div>
+      </div>
+
+    </div><!-- end main-content -->
+  </div>
+  <div class="gov-footer">
+    <div>© 2025 All India Council for Technical Education | Ministry of Education</div>
+    <div>Version 5.0.0 | <a>Terms of Use</a> | <a>Privacy Policy</a></div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="reviewModalTitle">Review Application</h3>
+      <span class="modal-close" onclick="closeReviewModal()">×</span>
+    </div>
+    <div class="modal-body" id="reviewModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-green" id="approveBtn" onclick="submitReview('approve')">✅ Approve Application</button>
+      <button class="btn btn-red" id="rejectBtn" onclick="submitReview('reject')">❌ Reject Application</button>
+      <button class="btn btn-navy" onclick="closeReviewModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="hiddenFileInput" accept=".pdf" style="display:none" onchange="handleFileSelected(event)">
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const API = 'http://127.0.0.1:8000/vvit';
+
+let currentRole = '';
+let institutionId = 0;
+let institutionName = '';
+let currentUploadSection = '';
+let allInstitutions = [];
+let chartInstances = {};
+let currentReviewApprovalId = null;
+
+const SECTION_DEFS = [
+  {key:'faculty',        icon:'👨‍🏫', title:'Faculty Details',       desc:'Faculty list, qualifications, designations, experience, PhD details.'},
+  {key:'labs',           icon:'🔬', title:'Laboratory Details',     desc:'Lab names, departments, area in sqft, equipment count per lab.'},
+  {key:'infrastructure', icon:'🏫', title:'Infrastructure Details', desc:'Classrooms, library books, computers, total area, hostel capacity.'},
+  {key:'students',       icon:'👨‍🎓', title:'Student Details',       desc:'Enrollment data, UG/PG count, programs offered list.'},
+  {key:'financials',     icon:'💰', title:'Financial Details',      desc:'Annual budget, fee structure (UG/PG fees).'},
+  {key:'accreditation',  icon:'🎓', title:'Accreditation Details',  desc:'NAAC grade, NBA accredited programs, ISO 9001:2015 certification.'},
+];
+let uploadedSections = [];
+let dashboardData = {};
+
+// ═══════════════════════════════════════════════════════
+//  NAVIGATION HELPERS
+// ═══════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {s.style.display='none';s.classList.remove('active');});
+  document.getElementById('app').style.display='none';
+  document.getElementById('app').classList.remove('active');
+  const el = document.getElementById(id);
+  if(el) {el.style.display='block';el.classList.add('active');}
+  window.scrollTo(0,0);
+}
+
+function switchTab(role) {
+  if(role==='authority') {showScreen('auth-login');return;}
+}
+
+function navTo(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById('page-'+page);
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.classList.remove('active');
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+page+"'")) n.classList.add('active');
+  });
+  if(page==='inst-dashboard')     loadDashboard();
+  else if(page==='upload-disclosures') buildUploadGrid();
+  else if(page==='my-disclosures')     loadDisclosures();
+  else if(page==='ai-risk')            loadAIRisk();
+  else if(page==='approval-status')    loadApprovalStatus();
+  else if(page==='notifications')      loadNotifications();
+  else if(page==='profile')            loadProfile();
+  else if(page==='auth-dashboard')     loadAuthorityData();
+  else if(page==='auth-pending')       loadPendingReviews('');
+  else if(page==='auth-institutions')  renderAuthInstitutions();
+  else if(page==='auth-analytics')     renderAuthAnalytics();
+}
+
+function doLogout() {
+  institutionId=0;institutionName='';currentRole='';uploadedSections=[];allInstitutions=[];dashboardData={};
+  Object.values(chartInstances).forEach(c=>{if(c)c.destroy();});
+  chartInstances={};
+  document.getElementById('app').style.display='none';
+  showScreen('landing');
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENTER APP
+// ═══════════════════════════════════════════════════════
+function enterApp(role) {
+  currentRole=role;
+  document.querySelectorAll('.screen').forEach(s=>{s.style.display='none';s.classList.remove('active');});
+  const app=document.getElementById('app');
+  app.style.display='flex';app.classList.add('active');
+  document.getElementById('userAvatarTop').textContent=(institutionName||'?')[0].toUpperCase();
+  document.getElementById('userNameTop').textContent=institutionName;
+  if(role==='institution') {
+    document.getElementById('inst-sidebar').style.display='block';
+    document.getElementById('auth-sidebar').style.display='none';
+    document.getElementById('roleBadge').textContent='INSTITUTION';
+    document.getElementById('roleBadge').className='role-badge';
+    document.getElementById('sidebarInstName').textContent=institutionName;
+    navTo('inst-dashboard');
+  } else {
+    document.getElementById('inst-sidebar').style.display='none';
+    document.getElementById('auth-sidebar').style.display='block';
+    document.getElementById('roleBadge').textContent='AUTHORITY';
+    document.getElementById('roleBadge').className='role-badge authority';
+    document.getElementById('authSidebarName').textContent=institutionName;
+    navTo('auth-dashboard');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  REGISTER / LOGIN
+// ═══════════════════════════════════════════════════════
+async function doRegister() {
+  const name=document.getElementById('regName').value.trim();
+  const email=document.getElementById('regEmail').value.trim();
+  const pass=document.getElementById('regPass').value;
+  const cpass=document.getElementById('regCpass').value;
+  const errEl=document.getElementById('regErr');
+  errEl.style.display='none';
+  if(!name||!email||!pass){showErr(errEl,'Name, email and password are required.');return;}
+  if(pass!==cpass){showErr(errEl,'Passwords do not match.');return;}
+  if(pass.length<6){showErr(errEl,'Password must be at least 6 characters.');return;}
+  const btn=document.getElementById('regBtn');
+  btn.disabled=true;btn.innerHTML='<span class="loading-spinner"></span> Registering...';
+  try {
+    const res=await fetch(`${API}/register/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      institution_name:name,aicte_id:document.getElementById('regAicteId').value.trim(),
+      inst_type:document.getElementById('regType').value,category:document.getElementById('regCategory').value,
+      year_established:parseInt(document.getElementById('regYear').value)||2000,
+      affiliated_univ:document.getElementById('regUniv').value.trim(),
+      state:document.getElementById('regState').value,district:document.getElementById('regDistrict').value.trim(),
+      pincode:document.getElementById('regPincode').value.trim(),
+      principal_name:document.getElementById('regPrincipal').value.trim(),
+      email,mobile:document.getElementById('regMobile').value.trim(),password:pass,
+    })});
+    const data=await res.json();
+    if(!res.ok){showErr(errEl,data.error||JSON.stringify(data));return;}
+    institutionId=data.institution_id;institutionName=data.institution_name;
+    enterApp('institution');
+  } catch(e){showErr(errEl,'Server error: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='SUBMIT REGISTRATION →';}
+}
+
+async function doLogin() {
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const errEl=document.getElementById('loginErr');errEl.style.display='none';
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;btn.innerHTML='<span class="loading-spinner"></span> Logging in...';
+  try {
+    const res=await fetch(`${API}/login/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const data=await res.json();
+    if(!res.ok){showErr(errEl,data.error||'Login failed');return;}
+    institutionId=data.institution_id;institutionName=data.institution_name;
+    enterApp('institution');
+  } catch(e){showErr(errEl,'Server error: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='LOGIN →';}
+}
+
+async function doAuthorityLogin() {
+  const email=document.getElementById('authEmail').value.trim();
+  const pass=document.getElementById('authPass').value;
+  const errEl=document.getElementById('authLoginErr');errEl.style.display='none';
+  const btn=document.getElementById('authLoginBtn');
+  btn.disabled=true;btn.innerHTML='<span class="loading-spinner"></span> Logging in...';
+  try {
+    const res=await fetch(`${API}/authority/login/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const data=await res.json();
+    if(!res.ok){showErr(errEl,data.error||'Login failed');return;}
+    institutionName=data.name;
+    enterApp('authority');
+  } catch(e){showErr(errEl,'Server error: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='LOGIN →';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  INSTITUTION DASHBOARD
+// ═══════════════════════════════════════════════════════
+async function loadDashboard() {
+  if (!institutionId) return;
+
+  try {
+    const res = await fetch(`${API}/dashboard/?institution_id=${institutionId}`);
+    if (!res.ok) return;
+
+    const d = await res.json();
+    dashboardData = d;
+    uploadedSections = d.sections_uploaded || [];
+
+    // =========================
+    // Basic Info
+    // =========================
+    document.getElementById('dashSubtitle').textContent =
+      (d.institution_name || '') + ' — ' + (d.aicte_id || 'No AICTE ID');
+
+    document.getElementById('ds-uploads').textContent = uploadedSections.length;
+    document.getElementById('ds-students').textContent = d.inst_data?.total_students || '—';
+    document.getElementById('ds-faculty').textContent = d.inst_data?.total_faculty || '—';
+    document.getElementById('ds-labs').textContent = d.inst_data?.total_labs || '—';
+    document.getElementById('ds-risk').textContent =
+      d.risk_score ? d.risk_score + '/100' : '—';
+    document.getElementById('ds-risk-level').textContent =
+      d.risk_level || 'Not Analyzed';
+    document.getElementById('ds-approval-prob').textContent =
+      d.approval_probability ? d.approval_probability + '%' : '—';
+
+    document.getElementById('sidebarAicteId').textContent =
+      'AICTE ID: ' + (d.aicte_id || '—');
+
+    // =========================
+    // Sidebar Risk Card
+    // =========================
+    if (d.risk_score > 0) {
+      document.getElementById('sidebarRiskCard').style.display = 'block';
+
+      const rc =
+        d.risk_score >= 60 ? 'var(--red-flag)' :
+        d.risk_score >= 30 ? 'var(--amber)' :
+        'var(--green-india)';
+
+      document.getElementById('sidebarRiskScore').style.color = rc;
+      document.getElementById('sidebarRiskScore').textContent =
+        d.risk_score + '/100';
+
+      document.getElementById('sidebarRiskLevel').textContent =
+        d.risk_level || '';
+    }
+
+    // =========================
+    // Sidebar Approval Card
+    // =========================
+    if (d.approval_status) {
+      const ac = document.getElementById('sidebarApprovalCard');
+      ac.style.display = 'block';
+
+      const statusConfig = {
+        pending:     { bg:'#FFF3CD', border:'var(--amber)',       color:'#856404', text:'⏳ Pending' },
+        approved:    { bg:'#D4EDDA', border:'var(--green-india)', color:'#155724', text:'✅ Approved' },
+        rejected:    { bg:'#F8D7DA', border:'var(--red-flag)',    color:'#721C24', text:'❌ Rejected' },
+        resubmitted: { bg:'#E0ECFF', border:'#1A5EBF',            color:'#0A3D9E', text:'🔄 Resubmitted' }
+      };
+
+      const cfg = statusConfig[d.approval_status] || {
+        bg:'var(--gray-100)',
+        border:'var(--border)',
+        color:'var(--navy)',
+        text:d.approval_status
+      };
+
+      ac.style.background = cfg.bg;
+      ac.style.borderColor = cfg.border;
+
+      document.getElementById('sidebarApprovalLabel').style.color = cfg.color;
+      document.getElementById('sidebarApprovalStatus').textContent = cfg.text;
+      document.getElementById('sidebarApprovalStatus').style.color = cfg.color;
+    }
+
+    // =========================
+    // Approval Banner
+    // =========================
+    renderApprovalBanner(d);
+
+    // =========================
+    // Professional Submit Button Logic
+    // =========================
+    const submitBtn = document.getElementById('submitApprovalBtn');
+
+    if (submitBtn) {
+
+      // Hide completely if approved
+      if (d.approval_status === 'approved') {
+        submitBtn.style.display = 'none';
+      }
+
+      // Rejected → allow resubmit
+      else if (d.latest_approval && d.latest_approval.status === 'rejected') {
+        submitBtn.style.display = 'inline-block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔄 Resubmit Application';
+      }
+
+      // Already submitted / under review
+      else if (d.latest_approval &&
+               ['submitted','under_review','pending']
+               .includes(d.latest_approval.status)) {
+
+        submitBtn.style.display = 'inline-block';
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Application Under Review';
+      }
+
+      // Normal submission state
+      else {
+        submitBtn.style.display = 'inline-block';
+
+        if (uploadedSections.length === 6) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '📨 Submit for Approval';
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.textContent =
+            `Upload all 6 sections (${uploadedSections.length}/6)`;
+        }
+      }
+    }
+
+    // =========================
+    // Risk Alert Banner
+    // =========================
+    const dashAlert = document.getElementById('dashAlert');
+
+    if (d.risk_level === 'High') {
+      dashAlert.style.display = 'flex';
+      dashAlert.className = 'alert-banner danger';
+      dashAlert.textContent =
+        '🔴 High Risk: ' + ((d.risk_factors || [])[0] || '');
+    }
+    else if (d.risk_level === 'Medium') {
+      dashAlert.style.display = 'flex';
+      dashAlert.className = 'alert-banner warn';
+      dashAlert.textContent =
+        '⚠️ Medium Risk: ' + ((d.risk_factors || [])[0] || '');
+    }
+    else {
+      dashAlert.style.display = 'none';
+    }
+
+    // =========================
+    // Section Rendering
+    // =========================
+    renderSectionScores(d);
+    renderInfraBody(d);
+    renderFacultyStats(d);
+    renderAccredBody(d);
+    renderRiskFactors(d);
+
+    loadNotifBadge();
+
+  } catch (e) {
+    console.error('Dashboard error:', e);
+  }
+}
+function renderApprovalBanner(d) {
+  const el=document.getElementById('dashApprovalBanner');
+  if(!d.latest_approval) {el.innerHTML='';return;}
+  const ar=d.latest_approval;
+  const configs={
+    submitted:    {cls:'submitted-banner',   icon:'📤', title:'Application Submitted for Review', msg:`Submitted on ${ar.submitted_at}. Awaiting AICTE authority review.`},
+    under_review: {cls:'submitted-banner',   icon:'🔍', title:'Application Under Review',         msg:`AICTE authority is reviewing your application.`},
+    approved:     {cls:'approved-banner',    icon:'✅', title:'Application APPROVED by AICTE',    msg:`Your mandatory disclosure has been approved! ${ar.authority_notes||''}`},
+    rejected:     {cls:'rejected-banner',    icon:'❌', title:'Application REJECTED — Action Required', msg:`Reason: ${ar.authority_notes||'See section decisions below.'}  You can correct and resubmit.`},
+    resubmitted:  {cls:'submitted-banner',   icon:'🔄', title:'Application Resubmitted',          msg:`Resubmitted for authority review.`},
+  };
+  const cfg=configs[ar.status]||{cls:'submitted-banner',icon:'📝',title:ar.status,msg:''};
+  let sectionDecisions='';
+  if(ar.section_decisions&&Object.keys(ar.section_decisions).length>0) {
+    sectionDecisions='<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">';
+    for(const [sec,dec] of Object.entries(ar.section_decisions)) {
+      const clr=dec.status==='approved'?'#D4EDDA':'#F8D7DA';
+      const txtClr=dec.status==='approved'?'#155724':'#721C24';
+      sectionDecisions+=`<div style="background:${clr};color:${txtClr};padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700">${sec.toUpperCase()}: ${dec.status} ${dec.notes?'— '+dec.notes:''}</div>`;
+    }
+    sectionDecisions+='</div>';
+  }
+  el.innerHTML=`<div class="approval-banner ${cfg.cls}">
+    <div>
+      <div style="font-size:20px;font-weight:700;font-family:'Rajdhani'">${cfg.icon} ${cfg.title}</div>
+      <div style="font-size:13px;margin-top:4px;color:var(--gray-700)">${cfg.msg}</div>
+      ${sectionDecisions}
+    </div>
+    ${ar.status==='rejected'?`<button class="btn btn-saffron btn-sm" onclick="navTo('upload-disclosures')">🔄 Re-upload PDFs</button>`:''}
+  </div>`;
+}
+
+function renderSectionScores(d) {
+  const el=document.getElementById('dashSectionBody');
+  const ss=d.section_scores||{};
+  const secDetails=d.section_details||{};
+  if(!Object.keys(ss).length&&!Object.keys(secDetails).length) {
+    el.innerHTML='<div style="color:var(--gray-500);font-size:12px">Upload PDFs to see section scores.</div>';
+    return;
+  }
+  const SECTION_LABELS={faculty:'Faculty',labs:'Labs',infrastructure:'Infrastructure',students:'Students',financials:'Financials',accreditation:'Accreditation'};
+  let html='';
+  for(const sec of Object.keys(SECTION_LABELS)) {
+    const details=secDetails[sec];
+    const pts=ss[sec]||0;
+    const maxPts={faculty:40,labs:15,infrastructure:60,students:10,financials:8,accreditation:33}[sec]||20;
+    const pct=Math.max(0,100-Math.round((pts/maxPts)*100));
+    const clr=pct>=70?'var(--green-india)':pct>=40?'var(--amber)':'var(--red-flag)';
+    const reviewBadge=details?`<span class="badge badge-${details.review_status||'pending'}" style="font-size:10px">${details.review_status||'pending'}</span>`:'<span style="font-size:10px;color:var(--gray-500)">Not uploaded</span>';
+    html+=`<div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:12px;font-weight:600">${SECTION_LABELS[sec]}</span>
+        <div style="display:flex;gap:6px;align-items:center">${reviewBadge}<span style="font-size:11px;color:${clr};font-weight:700">−${pts}pts</span></div>
+      </div>
+      <div class="cr-bar"><div class="cr-fill" style="width:${pct}%;background:${clr}"></div></div>
+    </div>`;
+  }
+  el.innerHTML=html;
+}
+
+function renderInfraBody(d) {
+  const el=document.getElementById('dashInfraBody');
+  const id=d.inst_data||{};
+  if(!id.total_students&&!id.total_faculty) {el.innerHTML='<div style="color:var(--gray-500);font-size:12px">Upload infrastructure PDF to see details.</div>';return;}
+  el.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    ${[['👨‍🏫','Faculty',id.total_faculty],['👨‍🎓','Students',id.total_students],
+       ['🔬','Labs',id.total_labs],['🏫','Classrooms',id.total_classrooms],
+       ['📚','Library Books',(id.library_books||0).toLocaleString()],
+       ['💻','Computers',id.computer_count],
+       ['📐','Area (sqft)',(id.total_area_sqft||0).toLocaleString()],
+       ['🏠','Hostel Capacity',id.hostel_capacity]]
+      .map(([ico,lbl,val])=>`<div style="background:var(--gray-100);border-radius:6px;padding:10px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:18px">${ico}</span>
+        <div><div style="font-size:10px;color:var(--gray-500)">${lbl}</div>
+        <div style="font-family:'Rajdhani';font-size:20px;font-weight:700;color:var(--navy)">${val||'—'}</div></div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function renderFacultyStats(d) {
+  const el=document.getElementById('dashFacultyStats');
+  const id=d.inst_data||{};
+  if(!id.total_faculty) {el.innerHTML='<div style="color:var(--gray-500);font-size:12px">Upload faculty PDF to see statistics.</div>';return;}
+  const phdPct=id.total_faculty>0?Math.round((id.faculty_phd_count/id.total_faculty)*100):0;
+  const ratio=id.total_students>0&&id.total_faculty>0?(id.total_students/id.total_faculty).toFixed(1):'N/A';
+  const shortage=Math.max(0,(id.required_faculty||0)-id.total_faculty);
+  // Duplicate detection
+  const names=(id.faculty_details||[]).map(f=>(f.name||'').toLowerCase().trim()).filter(n=>n);
+  const dups=names.length-new Set(names).size;
+  el.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div style="background:var(--gray-100);border-radius:6px;padding:10px">
+        <div style="font-size:10px;color:var(--gray-500)">Total Faculty</div>
+        <div style="font-family:'Rajdhani';font-size:24px;font-weight:700">${id.total_faculty}</div>
+      </div>
+      <div style="background:${shortage>0?'#F8D7DA':'#D4EDDA'};border-radius:6px;padding:10px">
+        <div style="font-size:10px;color:var(--gray-500)">Shortage</div>
+        <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:${shortage>0?'var(--red-flag)':'var(--green-india)'}">${shortage>0?'-'+shortage:'None'}</div>
+      </div>
+      <div style="background:${phdPct>=30?'#D4EDDA':'#FFF3CD'};border-radius:6px;padding:10px">
+        <div style="font-size:10px;color:var(--gray-500)">PhD %</div>
+        <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:${phdPct>=30?'var(--green-india)':'var(--amber)'}">${phdPct}%</div>
+      </div>
+      <div style="background:${parseFloat(ratio)<=15?'#D4EDDA':'#F8D7DA'};border-radius:6px;padding:10px">
+        <div style="font-size:10px;color:var(--gray-500)">Student:Faculty Ratio</div>
+        <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:${parseFloat(ratio)<=15?'var(--green-india)':'var(--red-flag)'}">1:${ratio}</div>
+      </div>
+    </div>
+    ${dups>0?`<div class="alert-banner warn">⚠️ Duplicate Faculty Detection: ${dups} duplicate name(s) found in faculty list. Please audit and correct.</div>`:''}
+  `;
+}
+
+function renderAccredBody(d) {
+  const el=document.getElementById('dashAccredBody');
+  const id=d.inst_data||{};
+  if(!id.naac_grade&&!id.nba_programs&&!id.iso_certified) {
+    el.innerHTML='<div style="color:var(--gray-500);font-size:12px">Upload accreditation PDF to see status.</div>';return;
+  }
+  el.innerHTML=`<table class="ai-data-table">
+    <thead><tr><th>Accreditation</th><th>Status</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td>NAAC Grade</td><td>${id.naac_grade?`<span class="badge badge-approved">${id.naac_grade}</span>`:'<span class="badge badge-rejected">Not Found</span>'}</td><td>${id.naac_grade?'NAAC Accredited':'Upload accreditation PDF'}</td></tr>
+      <tr><td>NBA Programs</td><td>${id.nba_programs?`<span class="badge badge-approved">Accredited</span>`:'<span class="badge badge-pending">Not Found</span>'}</td><td>${id.nba_programs||'—'}</td></tr>
+      <tr><td>ISO 9001:2015</td><td>${id.iso_certified?`<span class="badge badge-approved">Certified</span>`:'<span class="badge badge-pending">Not Certified</span>'}</td><td>${id.iso_certified?'Quality management certified':'—'}</td></tr>
+      <tr><td>Annual Budget</td><td>${id.annual_budget>0?`<span class="badge badge-approved">Available</span>`:'<span class="badge badge-rejected">Missing</span>'}</td><td>${id.annual_budget>0?'₹'+id.annual_budget+' Lakhs':'Upload financial PDF'}</td></tr>
+    </tbody>
+  </table>`;
+}
+
+function renderRiskFactors(d) {
+  const rf=d.risk_factors||[];
+  if(rf.length>0) {
+    document.getElementById('dashRiskCard').style.display='block';
+    const badge=document.getElementById('dashRiskBadge');
+    badge.textContent=d.risk_level;badge.className='badge badge-'+(d.risk_level||'low').toLowerCase();
+    document.getElementById('dashRiskFactors').innerHTML=rf.map((f,i)=>`
+      <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-200);align-items:flex-start">
+        <span style="background:var(--red-flag);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+        <span style="font-size:12px;color:var(--gray-700)">${f}</span>
+      </div>`).join('');
+  }
+  const sg=d.suggestions||[];
+  if(sg.length>0) {
+    document.getElementById('dashSuggestCard').style.display='block';
+    document.getElementById('dashSuggestions').innerHTML=sg.map((s,i)=>`
+      <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-200);align-items:flex-start">
+        <span style="background:var(--green-india);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+        <span style="font-size:12px;color:var(--navy)">${s}</span>
+      </div>`).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  UPLOAD DISCLOSURES
+// ═══════════════════════════════════════════════════════
+function buildUploadGrid() {
+  const grid=document.getElementById('uploadSectionsGrid');
+  const secDetails=dashboardData.section_details||{};
+  grid.innerHTML=SECTION_DEFS.map(sec=>{
+    const details=secDetails[sec.key];
+    const done=uploadedSections.includes(sec.key);
+    const isRejected=details&&details.review_status==='rejected';
+    const isApproved=details&&details.review_status==='approved';
+    let statusText='⬜ Not uploaded yet';let statusClass='pending-status';
+    if(done&&isApproved){statusText='✅ Approved by AICTE';statusClass='uploaded';}
+    else if(done&&isRejected){statusText='❌ Rejected — Re-upload required';statusClass='rejected-status';}
+    else if(done){statusText='✅ Uploaded & Analyzed';statusClass='uploaded';}
+    let btnClass='primary';let btnText=done?'🔄 Re-upload PDF':'📤 Upload PDF';
+    if(isRejected){btnClass='danger-btn';btnText='🔄 Re-upload (Fix Required)';}
+    else if(isApproved){btnClass='success-btn';btnText='🔄 Re-upload';}
+    const sectionScore=details?`<div style="font-size:10px;color:var(--gray-500);margin-bottom:6px">Section risk: <b>${details.section_score||0} pts</b></div>`:'';
+    const rejNotes=isRejected&&details.review_notes?`<div class="alert-banner danger" style="font-size:11px;padding:6px 10px;margin-bottom:8px">❌ ${details.review_notes}</div>`:'';
+    return `
+      <div class="section-upload-card ${done?'done':''} ${isRejected?'rejected-card':''}" id="sucard-${sec.key}">
+        <div class="su-icon">${sec.icon}</div>
+        <h4>${sec.title}</h4>
+        <p>${sec.desc}</p>
+        ${sectionScore}
+        <div class="su-status ${statusClass}" id="sustatus-${sec.key}">${statusText}</div>
+        ${rejNotes}
+        <button class="upload-btn ${btnClass}" id="subtn-${sec.key}" onclick="triggerUpload('${sec.key}')">${btnText}</button>
+      </div>`;
+  }).join('');
+}
+
+function triggerUpload(sectionKey) {
+  currentUploadSection=sectionKey;
+  document.getElementById('hiddenFileInput').value='';
+  document.getElementById('hiddenFileInput').click();
+}
+
+async function handleFileSelected(event) {
+  const file=event.target.files[0];
+  if(!file||!currentUploadSection) return;
+  if(!file.name.toLowerCase().endsWith('.pdf')) {
+    showToast('❌ Only PDF files accepted. Please upload a .pdf file.','red');return;
+  }
+  const progress=document.getElementById('uploadProgress');
+  const resultCard=document.getElementById('uploadResultCard');
+  const btn=document.getElementById(`subtn-${currentUploadSection}`);
+  progress.style.display='flex';
+  progress.innerHTML=`<span class="loading-spinner spin-orange" style="flex-shrink:0"></span> Uploading "${file.name}" for <b>${currentUploadSection}</b> section... AI analyzing, please wait.`;
+  resultCard.style.display='none';
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="loading-spinner" style="border-top-color:var(--saffron)"></span> Analyzing...';}
+  const formData=new FormData();
+  formData.append('institution_id',institutionId);
+  formData.append('section_type',currentUploadSection);
+  formData.append('academic_year','2024-25');
+  formData.append('pdf_file',file);
+  try {
+    const res=await fetch(`${API}/upload/`,{method:'POST',body:formData});
+    const data=await res.json();
+    progress.style.display='none';
+    if(!res.ok) {
+      showToast('❌ Upload failed: '+(data.error||'Unknown error'),'red');
+      if(btn){btn.disabled=false;btn.textContent='📤 Upload PDF';}
+      return;
+    }
+    if(!uploadedSections.includes(currentUploadSection)) uploadedSections.push(currentUploadSection);
+    const card=document.getElementById(`sucard-${currentUploadSection}`);
+    if(card){card.classList.add('done');card.classList.remove('rejected-card');}
+    const status=document.getElementById(`sustatus-${currentUploadSection}`);
+    if(status){status.textContent='✅ Uploaded & Analyzed';status.className='su-status uploaded';}
+    if(btn){btn.textContent='🔄 Re-upload PDF';btn.className='upload-btn success-btn';btn.disabled=false;}
+    resultCard.style.display='block';
+    document.getElementById('uploadResultBody').innerHTML=buildUploadResult(data);
+    showToast('✅ '+currentUploadSection.toUpperCase()+' PDF analyzed successfully!','green');
+    loadDashboard();
+  } catch(e) {
+    progress.style.display='none';
+    showToast('Server error: '+e.message,'red');
+    if(btn){btn.disabled=false;btn.textContent='📤 Upload PDF';}
+  }
+}
+
+function buildUploadResult(data) {
+  const aiData=data.ai_data||{};const risk=data.risk||{};const sec=data.section_type;
+  let rows='';
+  if(sec==='faculty') {
+    rows=`<tr><td>Total Faculty</td><td><b>${aiData.total_faculty||0}</b></td></tr>
+          <tr><td>Required Faculty</td><td>${aiData.required_faculty||0}</td></tr>
+          <tr><td>PhD Count</td><td>${aiData.faculty_phd_count||0}</td></tr>`;
+    const fd=aiData.faculty_details||[];
+    if(fd.length) {
+      rows+=`<tr><td colspan="2"><b>Faculty List (${fd.length} records)</b></td></tr>`;
+      fd.slice(0,5).forEach(f=>{rows+=`<tr><td>${f.name||'—'} (${f.dept||'—'})</td><td>${f.qualification||'—'}, ${f.experience_years||0} yrs</td></tr>`;});
+      if(fd.length>5) rows+=`<tr><td colspan="2" style="color:var(--gray-500)">... and ${fd.length-5} more</td></tr>`;
+    }
+  } else if(sec==='labs') {
+    rows=`<tr><td>Total Labs</td><td><b>${aiData.total_labs||0}</b></td></tr>`;
+    (aiData.lab_details||[]).slice(0,5).forEach(l=>{rows+=`<tr><td>${l.name||'—'} (${l.dept||'—'})</td><td>${l.area_sqft||0} sqft, ${l.equipment_count||0} equip</td></tr>`;});
+  } else if(sec==='infrastructure') {
+    rows=`<tr><td>Classrooms</td><td>${aiData.total_classrooms||0}</td></tr>
+          <tr><td>Library Books</td><td>${(aiData.library_books||0).toLocaleString()}</td></tr>
+          <tr><td>Computers</td><td>${aiData.computer_count||0}</td></tr>
+          <tr><td>Total Area (sqft)</td><td>${(aiData.total_area_sqft||0).toLocaleString()}</td></tr>
+          <tr><td>Hostel Capacity</td><td>${aiData.hostel_capacity||0}</td></tr>`;
+  } else if(sec==='students') {
+    rows=`<tr><td>Total Students</td><td><b>${aiData.total_students||0}</b></td></tr>
+          <tr><td>UG Students</td><td>${aiData.ug_students||0}</td></tr>
+          <tr><td>PG Students</td><td>${aiData.pg_students||0}</td></tr>
+          <tr><td>Programs Offered</td><td>${(aiData.programs_offered||[]).join(', ')||'—'}</td></tr>`;
+  } else if(sec==='financials') {
+    rows=`<tr><td>Annual Budget</td><td>₹${aiData.annual_budget||0} Lakhs</td></tr>
+          <tr><td>UG Fee</td><td>₹${(aiData.fee_structure?.ug_fee||0).toLocaleString()}</td></tr>
+          <tr><td>PG Fee</td><td>₹${(aiData.fee_structure?.pg_fee||0).toLocaleString()}</td></tr>`;
+  } else if(sec==='accreditation') {
+    rows=`<tr><td>NAAC Grade</td><td>${aiData.naac_grade||'—'}</td></tr>
+          <tr><td>NBA Programs</td><td>${aiData.nba_programs||'—'}</td></tr>
+          <tr><td>ISO Certified</td><td>${aiData.iso_certified?'Yes':'No'}</td></tr>`;
+  }
+  const clr=risk.risk_score>=60?'var(--red-flag)':risk.risk_score>=30?'var(--amber)':'var(--green-india)';
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <b style="font-family:'Rajdhani';font-size:14px">📊 Extracted Data — ${sec.toUpperCase()}</b>
+      <table class="ai-data-table" style="margin-top:8px">
+        <thead><tr><th>Field</th><th>Value</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="2" style="color:var(--gray-500)">No data extracted — defaults applied. Upload the correct PDF for this section.</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div>
+      <b style="font-family:'Rajdhani';font-size:14px">🤖 Updated Risk Score</b>
+      <div style="margin-top:12px;text-align:center">
+        <div class="risk-score-big" style="color:${clr}">${risk.risk_score||0}</div>
+        <div style="font-size:12px;color:var(--gray-500)">/100</div>
+        <div class="badge badge-${(risk.risk_level||'low').toLowerCase()}" style="margin-top:8px;font-size:13px;padding:6px 14px">${risk.risk_level||'Low'}</div>
+        <div style="font-size:11px;color:var(--gray-500);margin-top:6px">Approval Probability: ${risk.approval_probability||0}%</div>
+      </div>
+      ${(risk.risk_factors||[]).length>0?`<div style="margin-top:12px">${risk.risk_factors.slice(0,3).map(f=>`<div style="font-size:11px;color:var(--gray-700);padding:4px 0;border-bottom:1px solid var(--gray-200)">⚠️ ${f}</div>`).join('')}</div>`:''}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  SUBMIT FOR APPROVAL
+// ═══════════════════════════════════════════════════════
+async function submitForApproval() {
+
+  if (!institutionId) return;
+
+  if (uploadedSections.length !== 6) {
+    showToast('Upload all 6 mandatory sections before submission.','red');
+    return;
+  }
+
+  if (!confirm(
+    'Submit all uploaded disclosure PDFs for AICTE authority review?\n\nAfter submission you cannot modify unless rejected.'
+  )) return;
+
+  const btn = document.getElementById('submitApprovalBtn');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+
+  try {
+
+    const res = await fetch(`${API}/submit-approval/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ institution_id: institutionId })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      showToast('❌ ' + (data.error || 'Submission failed'), 'red');
+      btn.disabled = false;
+      btn.textContent = '📨 Submit for Approval';
+      return;
+    }
+
+    showToast('✅ Application submitted successfully!','green');
+
+    loadDashboard();
+    navTo('approval-status');
+
+  } catch (e) {
+    showToast('Server error: ' + e.message,'red');
+    btn.disabled = false;
+    btn.textContent = '📨 Submit for Approval';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  MY DISCLOSURES
+// ═══════════════════════════════════════════════════════
+async function loadDisclosures() {
+  if(!institutionId) return;
+  const body=document.getElementById('disclosuresTableBody');
+  body.innerHTML='<div style="padding:20px;color:var(--gray-500)">Loading...</div>';
+  try {
+    const res=await fetch(`${API}/disclosures/?institution_id=${institutionId}`);
+    const data=await res.json();
+    document.getElementById('discTotalBadge').textContent=data.length+' Uploads';
+    if(!data.length){body.innerHTML='<div style="color:var(--gray-500);text-align:center;padding:32px">No disclosures uploaded yet.</div>';return;}
+    body.innerHTML=`<table class="data-table">
+      <thead><tr><th>Section</th><th>Year</th><th>Status</th><th>Review</th><th>Section Score</th><th>Uploaded</th><th>Key Data</th></tr></thead>
+      <tbody>${data.map(d=>{
+        const ai=d.ai_data||{};
+        let keyData='';
+        if(d.section_type==='faculty') keyData=`Faculty: ${ai.total_faculty||0}, PhD: ${ai.faculty_phd_count||0}`;
+        else if(d.section_type==='labs') keyData=`Labs: ${ai.total_labs||0}`;
+        else if(d.section_type==='students') keyData=`Students: ${ai.total_students||0}`;
+        else if(d.section_type==='infrastructure') keyData=`Classrooms: ${ai.total_classrooms||0}, Lib: ${(ai.library_books||0).toLocaleString()}`;
+        else if(d.section_type==='financials') keyData=`Budget: ₹${ai.annual_budget||0}L`;
+        else if(d.section_type==='accreditation') keyData=`NAAC: ${ai.naac_grade||'—'}`;
+        const riskBadge=d.risk?`<span class="badge badge-${(d.risk.level||'low').toLowerCase()}">${d.risk.level} (${d.risk.score})</span>`:'<span class="badge">N/A</span>';
+        const reviewBadge=`<span class="badge badge-${d.review_status||'pending'}">${d.review_status||'pending'}</span>${d.review_notes?`<div style="font-size:10px;color:var(--gray-500);margin-top:2px">${d.review_notes}</div>`:''}`;
+        const sectionPts=d.risk?.section_score||0;
+        return `<tr>
+          <td><b>${d.section_type.toUpperCase()}</b></td>
+          <td>${d.academic_year}</td>
+          <td><span class="badge badge-analyzed">${d.status}</span></td>
+          <td>${reviewBadge}</td>
+          <td><span style="font-family:'Rajdhani';font-size:16px;color:${sectionPts>15?'var(--red-flag)':sectionPts>5?'var(--amber)':'var(--green-india)'}">${sectionPts>0?'-'+sectionPts+' pts':'✅ 0 pts'}</span></td>
+          <td style="font-size:11px;color:var(--gray-500)">${d.uploaded_at}</td>
+          <td style="font-size:11px">${keyData}</td>
+        </tr>`;
+      }).join('')}</tbody></table>`;
+  } catch(e){body.innerHTML='<div style="color:var(--red-flag);padding:20px">Error loading disclosures.</div>';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  AI RISK PAGE
+// ═══════════════════════════════════════════════════════
+async function loadAIRisk() {
+  if(!institutionId) return;
+  const container=document.getElementById('aiRiskContent');
+  container.innerHTML='<div style="text-align:center;padding:40px"><div class="loading-spinner spin-orange" style="width:36px;height:36px;border-width:4px"></div></div>';
+  try {
+    const res=await fetch(`${API}/ai-risk/?institution_id=${institutionId}`);
+    if(res.status===404){
+      container.innerHTML=`<div style="text-align:center;padding:60px;color:var(--gray-500)"><div style="font-size:48px;margin-bottom:16px">🤖</div><div style="font-size:18px;font-family:'Rajdhani';color:var(--navy)">No Risk Analysis Yet</div><div style="margin-top:8px">Upload at least one mandatory disclosure PDF.</div></div>`;
+      return;
+    }
+    const d=await res.json();
+    const clr=d.risk_score>=60?'var(--red-flag)':d.risk_score>=30?'var(--amber)':'var(--green-india)';
+    const lvl=(d.risk_level||'low').toLowerCase();
+
+    // Section breakdown HTML
+    const sb=d.section_breakdown||{};
+    let sbHtml='<table class="data-table"><thead><tr><th>Section</th><th>Uploaded</th><th>Review Status</th><th>Risk Pts</th><th>Key Data</th></tr></thead><tbody>';
+    const SECS=['faculty','labs','infrastructure','students','financials','accreditation'];
+    for(const sec of SECS) {
+      const info=sb[sec];
+      if(!info){sbHtml+=`<tr><td><b>${sec.toUpperCase()}</b></td><td colspan="4" style="color:var(--gray-500)">Not uploaded</td></tr>`;continue;}
+      const pts=(d.section_scores||{})[sec]||0;
+      const ai=info.ai_data||{};
+      let brief='';
+      if(sec==='faculty') brief=`Faculty: ${ai.total_faculty||0}, PhD: ${ai.faculty_phd_count||0}`;
+      else if(sec==='labs') brief=`Labs: ${ai.total_labs||0}`;
+      else if(sec==='students') brief=`Students: ${ai.total_students||0}`;
+      else if(sec==='infrastructure') brief=`Classrooms: ${ai.total_classrooms||0}`;
+      else if(sec==='financials') brief=`Budget: ₹${ai.annual_budget||0}L`;
+      else if(sec==='accreditation') brief=`NAAC: ${ai.naac_grade||'—'}`;
+      sbHtml+=`<tr>
+        <td><b>${sec.toUpperCase()}</b></td>
+        <td style="font-size:11px">${info.uploaded_at}</td>
+        <td><span class="badge badge-${info.review_status||'pending'}">${info.review_status||'pending'}</span></td>
+        <td><span style="font-family:'Rajdhani';font-size:16px;color:${pts>15?'var(--red-flag)':pts>5?'var(--amber)':'var(--green-india)'}">${pts>0?'-'+pts:' ✅'}</span></td>
+        <td style="font-size:11px">${brief}</td>
+      </tr>`;
+    }
+    sbHtml+='</tbody></table>';
+
+    // Faculty stats
+    const fs=d.faculty_stats||{};
+    const fHtml=fs.total_faculty?`
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <div style="background:var(--gray-100);border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Total Faculty</div><div style="font-family:'Rajdhani';font-size:22px;font-weight:700">${fs.total_faculty}</div></div>
+        <div style="background:${fs.shortage>0?'#F8D7DA':'#D4EDDA'};border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Shortage</div><div style="font-family:'Rajdhani';font-size:22px;font-weight:700;color:${fs.shortage>0?'var(--red-flag)':'var(--green-india)'}">${fs.shortage>0?fs.shortage:'None'}</div></div>
+        <div style="background:${fs.phd_pct>=30?'#D4EDDA':'#FFF3CD'};border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">PhD %</div><div style="font-family:'Rajdhani';font-size:22px;font-weight:700;color:${fs.phd_pct>=30?'var(--green-india)':'var(--amber)'}">${fs.phd_pct}%</div></div>
+      </div>`:'<div style="color:var(--gray-500);font-size:12px">Upload faculty PDF to see statistics.</div>';
+
+    container.innerHTML=`
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;margin-bottom:16px">
+        <div class="card">
+          <div class="card-header"><h3>Risk Score</h3></div>
+          <div class="card-body risk-circle-wrap">
+            <div class="risk-score-big" style="color:${clr}">${d.risk_score}</div>
+            <div style="font-size:12px;color:var(--gray-500);margin-bottom:10px">/ 100</div>
+            <span class="badge badge-${lvl}" style="font-size:14px;padding:6px 16px">${d.risk_level}</span>
+            <div style="margin-top:14px;font-size:12px;color:var(--gray-500)">Compliance: <b>${Math.round(d.compliance_pct)}%</b></div>
+            <div style="font-size:12px;color:var(--gray-500)">Faculty Ratio: <b>1:${d.faculty_ratio>0?d.faculty_ratio.toFixed(1):'N/A'}</b></div>
+            <div style="font-size:12px;margin-top:6px">Approval Probability: <b style="color:${d.approval_probability>=60?'var(--green-india)':'var(--amber)'}">${d.approval_probability||0}%</b></div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="card-header"><h3>Risk Flags</h3></div>
+            <div class="card-body">
+              ${[['Faculty Shortage',d.faculty_shortage],['Infrastructure Deficit',d.infra_deficit],['Expired Certificates',d.expired_certs]]
+                .map(([lbl,flag])=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-200)">
+                  <span style="font-size:13px">${lbl}</span>
+                  <span class="badge ${flag?'badge-rejected':'badge-approved'}">${flag?'⚠️ Issue Found':'✅ OK'}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Faculty Compliance Statistics</h3></div>
+            <div class="card-body">${fHtml}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"><h3>📋 Section-wise Breakdown</h3></div>
+        <div class="card-body-sm">${sbHtml}</div>
+      </div>
+
+      ${(d.risk_factors||[]).length>0?`<div class="card" style="margin-bottom:16px">
+        <div class="card-header"><h3>⚠️ Risk Factors & Drawbacks (${d.risk_factors.length})</h3></div>
+        <div class="card-body">${d.risk_factors.map((f,i)=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-200)">
+          <span style="background:var(--red-flag);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+          <span style="font-size:12px;color:var(--gray-700)">${f}</span>
+        </div>`).join('')}</div>
+      </div>`:''} 
+
+      ${(d.suggestions||[]).length>0?`<div class="card" style="margin-bottom:16px">
+        <div class="card-header"><h3>💡 Suggested Actions</h3></div>
+        <div class="card-body">${d.suggestions.map((s,i)=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-200)">
+          <span style="background:var(--green-india);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+          <span style="font-size:12px;color:var(--navy)">${s}</span>
+        </div>`).join('')}</div>
+      </div>`:''}
+
+      ${(d.history||[]).length>0?`<div class="card">
+        <div class="card-header"><h3>📅 Risk Analysis History</h3></div>
+        <div class="card-body-sm"><table class="data-table">
+          <thead><tr><th>Section</th><th>Risk Score</th><th>Level</th><th>Analyzed On</th></tr></thead>
+          <tbody>${d.history.map(h=>`<tr>
+            <td>${h.section_type.toUpperCase()}</td>
+            <td><b>${h.risk_score}/100</b></td>
+            <td><span class="badge badge-${h.risk_level.toLowerCase()}">${h.risk_level}</span></td>
+            <td style="font-size:11px;color:var(--gray-500)">${h.analyzed_at}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+      </div>`:''}`;
+  } catch(e){container.innerHTML='<div style="color:var(--red-flag);padding:20px">Error loading risk analysis.</div>';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  APPROVAL STATUS (INSTITUTION)
+// ═══════════════════════════════════════════════════════
+async function loadApprovalStatus() {
+  if(!institutionId) return;
+  const container=document.getElementById('approvalStatusContent');
+  container.innerHTML='<div style="text-align:center;padding:40px"><div class="loading-spinner spin-orange" style="width:36px;height:36px;border-width:4px"></div></div>';
+  try {
+    const res=await fetch(`${API}/approval-status/?institution_id=${institutionId}`);
+    const d=await res.json();
+    if(d.status==='not_submitted') {
+      container.innerHTML=`<div style="text-align:center;padding:60px;color:var(--gray-500)">
+        <div style="font-size:48px;margin-bottom:16px">📝</div>
+        <div style="font-size:18px;font-family:'Rajdhani';color:var(--navy);margin-bottom:8px">No Application Submitted Yet</div>
+        <div>Upload all mandatory disclosure PDFs, then click <b>Submit for Approval</b> on the dashboard.</div>
+        <button class="btn btn-saffron" style="margin-top:20px" onclick="navTo('upload-disclosures')">📁 Go to Upload</button>
+      </div>`;
+      return;
+    }
+    const statusConfig={
+      submitted:    {cls:'submitted-banner',   title:'⏳ Application Under AICTE Review',   color:'#0A3D9E'},
+      under_review: {cls:'submitted-banner',   title:'🔍 Being Reviewed by AICTE Authority', color:'#856404'},
+      approved:     {cls:'approved-banner',    title:'✅ Application APPROVED',              color:'#155724'},
+      rejected:     {cls:'rejected-banner',    title:'❌ Application REJECTED',              color:'#721C24'},
+      resubmitted:  {cls:'submitted-banner',   title:'🔄 Application Resubmitted',          color:'#0A3D9E'},
+    }[d.status]||{cls:'submitted-banner',title:d.status,color:'var(--navy)'};
+
+    let secDecHtml='';
+    if(d.section_decisions&&Object.keys(d.section_decisions).length>0) {
+      secDecHtml=`<div class="card" style="margin-top:16px">
+        <div class="card-header"><h3>Section-wise Decision</h3></div>
+        <div class="card-body-sm"><table class="data-table">
+          <thead><tr><th>Section</th><th>Decision</th><th>Authority Notes</th></tr></thead>
+          <tbody>${Object.entries(d.section_decisions).map(([sec,dec])=>`<tr>
+            <td><b>${sec.toUpperCase()}</b></td>
+            <td><span class="badge badge-${dec.status||'pending'}">${dec.status||'pending'}</span></td>
+            <td style="font-size:12px">${dec.notes||'—'}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+      </div>`;
+    }
+
+    let histHtml='';
+    if((d.history||[]).length>0) {
+      histHtml=`<div class="card" style="margin-top:16px">
+        <div class="card-header"><h3>Application History</h3></div>
+        <div class="card-body-sm"><table class="data-table">
+          <thead><tr><th>Submitted</th><th>Status</th><th>Risk Score</th><th>Reviewed On</th><th>Notes</th></tr></thead>
+          <tbody>${d.history.map(h=>`<tr>
+            <td style="font-size:11px">${h.submitted_at}</td>
+            <td><span class="badge badge-${h.status==='approved'?'approved':h.status==='rejected'?'rejected':'pending'}">${h.status}</span></td>
+            <td>${h.risk_score}/100</td>
+            <td style="font-size:11px">${h.reviewed_at||'—'}</td>
+            <td style="font-size:11px;color:var(--gray-500)">${h.authority_notes||'—'}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+      </div>`;
+    }
+
+    container.innerHTML=`
+      <div class="approval-banner ${statusConfig.cls}">
+        <div>
+          <div style="font-size:22px;font-weight:700;font-family:'Rajdhani';color:${statusConfig.color}">${statusConfig.title}</div>
+          <div style="font-size:13px;margin-top:4px">Submitted: ${d.submitted_at} | Risk Score at Submission: ${d.risk_at_submission}/100</div>
+          ${d.reviewed_at?`<div style="font-size:13px">Reviewed on: ${d.reviewed_at} by ${d.reviewed_by}</div>`:''}
+          ${d.authority_notes?`<div style="font-size:13px;margin-top:8px;font-style:italic;color:${statusConfig.color}">"${d.authority_notes}"</div>`:''}
+        </div>
+        ${d.status==='rejected'?`<button class="btn btn-saffron" onclick="navTo('upload-disclosures')">🔄 Re-upload & Resubmit</button>`:''}
+        ${d.status==='approved'?`<button class="btn btn-navy btn-sm" onclick="downloadExcel()">📥 Download Certificate</button>`:''}
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Submitted Sections</h3></div>
+        <div class="card-body">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${(d.sections||[]).map(s=>`<span class="badge badge-analyzed">${s.toUpperCase()}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      ${secDecHtml}
+      ${histHtml}
+    `;
+  } catch(e){container.innerHTML='<div style="color:var(--red-flag);padding:20px">Error loading approval status.</div>';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════════════════
+async function loadNotifications() {
+  if(!institutionId) return;
+  const body=document.getElementById('notifBody');
+  try {
+    const res=await fetch(`${API}/notifications/?institution_id=${institutionId}`);
+    const data=await res.json();
+    const unread=data.filter(n=>!n.is_read).length;
+    document.getElementById('notifUnreadBadge').textContent=unread+' Unread';
+    if(!data.length){body.innerHTML='<div style="color:var(--gray-500);text-align:center;padding:32px">No notifications yet.</div>';return;}
+    const icons={warning:'⚠️',success:'✅',danger:'🔴',info:'ℹ️'};
+    body.innerHTML=data.map(n=>`
+      <div class="notif-item">
+        <div class="notif-icon ${n.notif_type}">${icons[n.notif_type]||'📢'}</div>
+        <div style="flex:1">
+          <div class="notif-title">${n.title}</div>
+          <div class="notif-desc">${n.message}</div>
+          <div class="notif-time">📅 ${n.created_at}</div>
+        </div>
+        ${!n.is_read?'<div style="width:8px;height:8px;border-radius:50%;background:var(--saffron);flex-shrink:0;margin-top:4px"></div>':''}
+      </div>`).join('');
+  } catch(e){body.innerHTML='<div style="color:var(--red-flag);padding:20px">Error loading notifications.</div>';}
+}
+
+async function loadNotifBadge() {
+  if(!institutionId) return;
+  try {
+    const res=await fetch(`${API}/notifications/?institution_id=${institutionId}`);
+    const data=await res.json();
+    const unread=data.filter(n=>!n.is_read).length;
+    const badge=document.getElementById('notifBadgeTop');
+    if(unread>0){badge.style.display='inline';badge.textContent=unread;}
+    else badge.style.display='none';
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════
+//  PROFILE
+// ═══════════════════════════════════════════════════════
+async function loadProfile() {
+  if(!institutionId) return;
+  try {
+    const res=await fetch(`${API}/dashboard/?institution_id=${institutionId}`);
+    const d=await res.json();
+    document.getElementById('profileName').textContent=d.institution_name;
+    const riskClr=d.risk_score>=60?'var(--red-flag)':d.risk_score>=30?'var(--amber)':'var(--green-india)';
+    document.getElementById('profileBody').innerHTML=`
+      <div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:64px;height:64px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--white);font-family:'Rajdhani'">${(d.institution_name||'I')[0]}</div>
+          <div><div style="font-family:'Rajdhani';font-size:20px;font-weight:700">${d.institution_name}</div><div style="font-size:12px;color:var(--gray-500)">${d.inst_type} | ${d.state}</div></div>
+        </div>
+        ${[['AICTE ID',d.aicte_id||'—'],['STATE',d.state||'—'],['TYPE',d.inst_type||'—'],['PRINCIPAL',d.principal_name||'—'],['APPROVAL STATUS',d.approval_status||'pending']].map(([l,v])=>`<div style="margin-bottom:10px"><div style="font-size:10px;color:var(--gray-500);font-weight:700;letter-spacing:.5px">${l}</div><div style="font-size:13px">${v}</div></div>`).join('')}
+      </div>
+      <div>
+        ${[['TOTAL STUDENTS',d.inst_data?.total_students||'—'],['TOTAL FACULTY',d.inst_data?.total_faculty||'—'],['TOTAL LABS',d.inst_data?.total_labs||'—'],['NAAC GRADE',d.inst_data?.naac_grade||'—'],['SECTIONS UPLOADED',(d.sections_uploaded||[]).join(', ')||'None']].map(([l,v])=>`<div style="margin-bottom:10px"><div style="font-size:10px;color:var(--gray-500);font-weight:700;letter-spacing:.5px">${l}</div><div style="font-size:13px">${v}</div></div>`).join('')}
+        <div style="margin-bottom:10px"><div style="font-size:10px;color:var(--gray-500);font-weight:700;letter-spacing:.5px">RISK SCORE</div>
+          <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:${riskClr}">${d.risk_score||0}/100 — ${d.risk_level}</div></div>
+        <div><div style="font-size:10px;color:var(--gray-500);font-weight:700;letter-spacing:.5px">APPROVAL PROBABILITY</div>
+          <div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:var(--green-india)">${d.approval_probability||0}%</div></div>
+      </div>`;
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTHORITY — DASHBOARD
+// ═══════════════════════════════════════════════════════
+async function loadAuthorityData() {
+  try {
+    const [statsRes,instRes]=await Promise.all([
+      fetch(`${API}/authority/stats/`),
+      fetch(`${API}/authority/all/`)
+    ]);
+    const stats=await statsRes.json();
+    const insts=await instRes.json();
+    allInstitutions=insts;
+    document.getElementById('ath-total').textContent=stats.total_institutions||0;
+    document.getElementById('ath-pending').textContent=stats.pending_approvals||0;
+    document.getElementById('ath-approved').textContent=stats.approved||0;
+    document.getElementById('ath-rejected').textContent=stats.rejected||0;
+    document.getElementById('ath-high').textContent=stats.high_risk||0;
+    document.getElementById('ath-medium').textContent=stats.medium_risk||0;
+    // Pending badge in sidebar
+    if(stats.pending_approvals>0) {
+      document.getElementById('authPendingBadge').style.display='block';
+      document.getElementById('authPendingCount').textContent=stats.pending_approvals;
+    }
+    setTimeout(()=>buildAuthCharts(stats,insts),100);
+    // High risk table
+    const high=insts.filter(i=>i.risk_level==='High');
+    const highEl=document.getElementById('authHighRiskBody');
+    if(!high.length){highEl.innerHTML='<div style="color:var(--gray-500);padding:20px;text-align:center">No high-risk institutions found.</div>';return;}
+    highEl.innerHTML=`<table class="data-table">
+      <thead><tr><th>Institution</th><th>State</th><th>Students</th><th>Faculty</th><th>Risk Score</th><th>Approval</th></tr></thead>
+      <tbody>${high.map(i=>`<tr>
+        <td><b>${i.institution_name}</b><br><small style="color:var(--gray-500)">${i.aicte_id||'—'}</small></td>
+        <td>${i.state}</td><td>${i.total_students||'—'}</td><td>${i.total_faculty||'—'}</td>
+        <td><span class="badge badge-high">${i.risk_score}/100</span></td>
+        <td><span class="badge badge-${i.approval_status||'pending'}">${i.approval_status||'pending'}</span></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  } catch(e){console.error('Authority load error:',e);}
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTHORITY — PENDING REVIEWS
+// ═══════════════════════════════════════════════════════
+async function loadPendingReviews(statusFilter) {
+  const body=document.getElementById('pendingReviewsBody');
+  body.innerHTML='<div style="text-align:center;padding:32px"><div class="loading-spinner spin-orange" style="width:28px;height:28px;border-width:3px"></div></div>';
+  try {
+    const url=`${API}/authority/pending/`+(statusFilter?`?status=${statusFilter}`:'');
+    const res=await fetch(url);
+    const data=await res.json();
+    if(!data.length){body.innerHTML='<div style="color:var(--gray-500);text-align:center;padding:32px">No applications found.</div>';return;}
+    body.innerHTML=data.map(ar=>`
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3>${ar.institution_name}</h3>
+            <div style="font-size:12px;color:var(--gray-500)">AICTE ID: ${ar.aicte_id||'—'} | ${ar.state} | Submitted: ${ar.submitted_at}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="badge badge-${ar.risk_level.toLowerCase()}">${ar.risk_level} Risk (${ar.risk_score}/100)</span>
+            <span class="badge badge-${ar.status==='approved'?'approved':ar.status==='rejected'?'rejected':'submitted'}">${ar.status}</span>
+            ${ar.status!=='approved'&&ar.status!=='rejected'?`<button class="btn btn-saffron btn-sm" onclick="openReviewModal(${ar.approval_id})">🔍 Review & Decide</button>`:''}
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+            ${[['Students',ar.inst_stats?.total_students||'—'],['Faculty',ar.inst_stats?.total_faculty||'—'],['Labs',ar.inst_stats?.total_labs||'—'],['NAAC',ar.inst_stats?.naac_grade||'—']].map(([l,v])=>`<div style="background:var(--gray-100);border-radius:4px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">${l}</div><div style="font-family:'Rajdhani';font-size:18px;font-weight:700">${v}</div></div>`).join('')}
+          </div>
+          <div style="font-weight:600;font-size:12px;margin-bottom:6px">Sections Submitted:</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+            ${(ar.sections||[]).map(s=>`<span class="badge badge-analyzed">${s.toUpperCase()}</span>`).join('')}
+          </div>
+          ${(ar.risk_factors||[]).length>0?`<div style="font-weight:600;font-size:12px;margin-bottom:6px">Top Risk Factors:</div>
+          <div>${ar.risk_factors.slice(0,3).map(f=>`<div style="font-size:12px;color:var(--gray-700);padding:4px 0;border-bottom:1px solid var(--gray-200)">⚠️ ${f}</div>`).join('')}</div>`:''}
+          ${ar.authority_notes?`<div class="alert-banner ${ar.status==='approved'?'success':'danger'}" style="margin-top:10px">Authority Notes: ${ar.authority_notes}</div>`:''}
+        </div>
+      </div>`).join('');
+  } catch(e){body.innerHTML='<div style="color:var(--red-flag);padding:20px">Error loading pending reviews.</div>';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  REVIEW MODAL
+// ═══════════════════════════════════════════════════════
+async function openReviewModal(approvalId) {
+  currentReviewApprovalId=approvalId;
+  const modal=document.getElementById('reviewModal');
+  const modalBody=document.getElementById('reviewModalBody');
+  modal.classList.add('open');
+  modalBody.innerHTML='<div style="text-align:center;padding:40px"><div class="loading-spinner spin-orange" style="width:28px;height:28px;border-width:3px"></div></div>';
+  try {
+    const url=`${API}/authority/pending/`;
+    const res=await fetch(url);
+    const data=await res.json();
+    const ar=data.find(a=>a.approval_id===approvalId);
+    if(!ar){modalBody.innerHTML='<div style="color:var(--red-flag)">Application not found.</div>';return;}
+    document.getElementById('reviewModalTitle').textContent=`Review: ${ar.institution_name}`;
+    const SECS=['faculty','labs','infrastructure','students','financials','accreditation'];
+    const secRows=SECS.map(sec=>{
+      const info=ar.sections_data?.[sec];
+      if(!info) return `<tr><td><b>${sec.toUpperCase()}</b></td><td colspan="3" style="color:var(--gray-500)">Not uploaded</td></tr>`;
+      const ai=info.ai_data||{};
+      let brief='';
+      if(sec==='faculty') brief=`Faculty: ${ai.total_faculty||0}, PhD: ${ai.faculty_phd_count||0}`;
+      else if(sec==='labs') brief=`Labs: ${ai.total_labs||0}`;
+      else if(sec==='students') brief=`Students: ${ai.total_students||0}`;
+      else if(sec==='infrastructure') brief=`Classrooms: ${ai.total_classrooms||0}, Library: ${(ai.library_books||0).toLocaleString()}`;
+      else if(sec==='financials') brief=`Budget: ₹${ai.annual_budget||0}L`;
+      else if(sec==='accreditation') brief=`NAAC: ${ai.naac_grade||'—'}, ISO: ${ai.iso_certified?'Yes':'No'}`;
+      return `<tr>
+        <td><b>${sec.toUpperCase()}</b></td>
+        <td style="font-size:12px">${brief}</td>
+        <td>
+          <select id="secDec-${sec}-status" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:12px">
+            <option value="pending">Pending</option>
+            <option value="approved">Approve</option>
+            <option value="rejected">Reject</option>
+          </select>
+        </td>
+        <td><input type="text" id="secDec-${sec}-notes" placeholder="Notes (optional)" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:12px;width:100%"></td>
+      </tr>`;
+    }).join('');
+    modalBody.innerHTML=`
+      <div style="margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+          <div style="background:var(--gray-100);border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Risk Score</div><div style="font-family:'Rajdhani';font-size:24px;font-weight:700;color:${ar.risk_score>=60?'var(--red-flag)':ar.risk_score>=30?'var(--amber)':'var(--green-india)'}">${ar.risk_score}/100</div></div>
+          <div style="background:var(--gray-100);border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Students</div><div style="font-family:'Rajdhani';font-size:24px;font-weight:700">${ar.inst_stats?.total_students||'—'}</div></div>
+          <div style="background:var(--gray-100);border-radius:6px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">NAAC Grade</div><div style="font-family:'Rajdhani';font-size:24px;font-weight:700">${ar.inst_stats?.naac_grade||'—'}</div></div>
+        </div>
+        ${(ar.risk_factors||[]).length>0?`<div class="alert-banner danger"><b>Risk Factors:</b><br>${ar.risk_factors.slice(0,3).map(f=>'⚠️ '+f).join('<br>')}</div>`:''}
+      </div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px">Section-wise Review Decision:</div>
+      <table class="data-table" style="margin-bottom:16px">
+        <thead><tr><th>Section</th><th>Key Data</th><th>Decision</th><th>Notes</th></tr></thead>
+        <tbody>${secRows}</tbody>
+      </table>
+      <div class="form-group"><label>Overall Authority Notes / Reason</label>
+        <textarea id="reviewNotes" rows="3" placeholder="Provide detailed notes for institution. If rejecting, explain what needs to be fixed." style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:4px;font-family:'Noto Sans';font-size:13px;resize:vertical"></textarea>
+      </div>`;
+  } catch(e){modalBody.innerHTML='<div style="color:var(--red-flag)">Error loading application details.</div>';}
+}
+
+function closeReviewModal() {
+  document.getElementById('reviewModal').classList.remove('open');
+  currentReviewApprovalId=null;
+}
+
+async function submitReview(action) {
+  if(!currentReviewApprovalId) return;
+  const notes=document.getElementById('reviewNotes')?.value?.trim()||'';
+  const SECS=['faculty','labs','infrastructure','students','financials','accreditation'];
+  const sectionDecisions={};
+  for(const sec of SECS) {
+    const statusEl=document.getElementById(`secDec-${sec}-status`);
+    const notesEl=document.getElementById(`secDec-${sec}-notes`);
+    if(statusEl) {
+      sectionDecisions[sec]={status:statusEl.value,notes:notesEl?.value?.trim()||''};
+    }
+  }
+  const btn=document.getElementById(action==='approve'?'approveBtn':'rejectBtn');
+  btn.disabled=true;btn.innerHTML='<span class="loading-spinner"></span> Processing...';
+  try {
+    const res=await fetch(`${API}/authority/review/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      approval_id:currentReviewApprovalId,action,notes,section_decisions:sectionDecisions
+    })});
+    const data=await res.json();
+    if(!res.ok){showToast('❌ '+(data.error||'Review failed'),'red');return;}
+    showToast(`✅ Application ${action==='approve'?'APPROVED':'REJECTED'} successfully!`,'green');
+    closeReviewModal();
+    loadPendingReviews('');
+    loadAuthorityData();
+  } catch(e){showToast('Error: '+e.message,'red');}
+  finally{btn.disabled=false;btn.textContent=action==='approve'?'✅ Approve Application':'❌ Reject Application';}
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTHORITY — ALL INSTITUTIONS
+// ═══════════════════════════════════════════════════════
+function renderAuthInstitutions() {
+  const body=document.getElementById('authInstBody');
+  const search=document.getElementById('authSearch').value.toLowerCase();
+  const riskFilter=document.getElementById('authRiskFilter').value;
+  const approvalFilter=document.getElementById('authApprovalFilter').value;
+  let filtered=allInstitutions.filter(i=>{
+    const matchSearch=!search||i.institution_name.toLowerCase().includes(search)||(i.state||'').toLowerCase().includes(search);
+    const matchRisk=!riskFilter||i.risk_level===riskFilter;
+    const matchApproval=!approvalFilter||i.approval_status===approvalFilter;
+    return matchSearch&&matchRisk&&matchApproval;
+  });
+  document.getElementById('authInstCount').textContent=filtered.length+' Institutions';
+  if(!filtered.length){body.innerHTML='<div style="color:var(--gray-500);text-align:center;padding:32px">No institutions found.</div>';return;}
+  body.innerHTML=`<table class="data-table">
+    <thead><tr><th>Institution</th><th>State</th><th>Students</th><th>Faculty</th><th>Labs</th><th>Risk</th><th>Score</th><th>Approval</th></tr></thead>
+    <tbody>${filtered.map(i=>`<tr>
+      <td><b>${i.institution_name}</b><br><small style="color:var(--gray-500)">${i.aicte_id||'—'}</small></td>
+      <td>${i.state}</td>
+      <td>${i.total_students||'—'}</td><td>${i.total_faculty||'—'}</td><td>${i.total_labs||'—'}</td>
+      <td><span class="badge badge-${(i.risk_level||'pending').toLowerCase().replace(' ','-')}">${i.risk_level||'Not Analyzed'}</span></td>
+      <td><b style="font-family:'Rajdhani';font-size:18px;color:${i.risk_score>=60?'var(--red-flag)':i.risk_score>=30?'var(--amber)':'var(--green-india)'}">${i.risk_score||0}</b></td>
+      <td><span class="badge badge-${i.approval_status==='approved'?'approved':i.approval_status==='rejected'?'rejected':'pending'}">${i.approval_status||'pending'}</span></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+function filterAuthTable(){renderAuthInstitutions();}
+
+function renderAuthAnalytics() {
+  const byState={};const byRisk={Low:0,Medium:0,High:0};const byApproval={pending:0,approved:0,rejected:0};
+  allInstitutions.forEach(i=>{
+    byState[i.state]=(byState[i.state]||0)+1;
+    if(i.risk_level) byRisk[i.risk_level]=(byRisk[i.risk_level]||0)+1;
+    if(i.approval_status) byApproval[i.approval_status]=(byApproval[i.approval_status]||0)+1;
+  });
+  setTimeout(()=>{
+    makeChart('analyticsRiskChart',{type:'doughnut',data:{labels:['Low Risk','Medium Risk','High Risk'],datasets:[{data:[byRisk.Low,byRisk.Medium,byRisk.High],backgroundColor:['#138808','#E8920A','#D92B3A'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right'}}}});
+    makeChart('analyticsStateChart',{type:'bar',data:{labels:Object.keys(byState),datasets:[{label:'Institutions',data:Object.values(byState),backgroundColor:'#FF6B00'}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true}}}});
+  },100);
+}
+
+function buildAuthCharts(stats,insts) {
+  const byState={};
+  insts.forEach(i=>{byState[i.state]=(byState[i.state]||0)+1;});
+  makeChart('riskDistChart',{type:'pie',data:{labels:['Low','Medium','High'],datasets:[{data:[stats.low_risk||0,stats.medium_risk||0,stats.high_risk||0],backgroundColor:['#138808','#E8920A','#D92B3A']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+  makeChart('approvalDistChart',{type:'doughnut',data:{labels:['Pending','Approved','Rejected'],datasets:[{data:[stats.pending_approvals||0,stats.approved||0,stats.rejected||0],backgroundColor:['#E8920A','#138808','#D92B3A'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+}
+
+// ═══════════════════════════════════════════════════════
+//  DOWNLOAD EXCEL
+// ═══════════════════════════════════════════════════════
+async function downloadExcel() {
+  if(!institutionId){showToast('Please log in first.','red');return;}
+  const btns=document.querySelectorAll('[onclick="downloadExcel()"]');
+  btns.forEach(b=>{b.disabled=true;b._t=b.innerHTML;b.innerHTML='⏳ Generating...';});
+  try {
+    const res=await fetch(`${API}/download-excel/?institution_id=${institutionId}`);
+    if(!res.ok){showToast('Download failed','red');return;}
+    const cd=res.headers.get('Content-Disposition')||'';
+    const match=cd.match(/filename="(.+)"/);
+    const filename=match?match[1]:`AICTE_Report_${institutionId}.xlsx`;
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=filename;
+    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    showToast('✅ Downloaded: '+filename,'green');
+  } catch(e){showToast('Error: '+e.message,'red');}
+  finally{btns.forEach(b=>{b.disabled=false;if(b._t)b.innerHTML=b._t;});}
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART HELPER
+// ═══════════════════════════════════════════════════════
+function makeChart(id,config) {
+  if(chartInstances[id])chartInstances[id].destroy();
+  const el=document.getElementById(id);if(!el)return;
+  chartInstances[id]=new Chart(el,config);
+}
+
+// ═══════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════
+function showErr(el,msg){el.style.display='flex';el.innerHTML='❌ '+msg;}
+
+function showToast(msg,color) {
+  const bg=color==='green'?'#138808':'#D92B3A';
+  const div=document.createElement('div');
+  div.style.cssText=`position:fixed;top:70px;right:20px;background:${bg};color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:380px;animation:slideIn .3s ease`;
+  div.textContent=msg;
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(),4500);
+}
+
+// Fix undefined CSS variable reference
+var var_amber='#856404';
+</script>
+</body>
+</html>
